@@ -307,6 +307,7 @@ Session.vim
 # auto-generated tag files
 tags
 
+src/server/server
 
 # End of https://www.gitignore.io/api/go,vim,java,python,android,androidstudio
 
