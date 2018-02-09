@@ -1,5 +1,6 @@
 package cdt.app;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,16 @@ public class MainActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 final TextView buttonMessage = (TextView) findViewById(R.id.buttonMessage);
                 buttonMessage.setText("This button executed code!");
+            }
+        });
+
+        final Button settingsButton = findViewById(R.id.settingsButton_id);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+
+                   startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+
             }
         });
     }
