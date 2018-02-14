@@ -6,36 +6,39 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class SettingsActivity extends AppCompatActivity {
+public class NickNameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_nick_name);
 
         final Button mainButton = findViewById(R.id.mainButton_id);
         mainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
 
-                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                startActivity(new Intent(NickNameActivity.this, MainActivity.class));
 
 
 
             }
         });
 
-        final Button nickNameButton = findViewById(R.id.nickNameButton_id);
-        nickNameButton.setOnClickListener(new View.OnClickListener() {
+        final Button startAppButton = findViewById(R.id.startAppButton_id);
+        startAppButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
 
-                startActivity(new Intent(SettingsActivity.this, NickNameActivity.class));
+
+
+                //startActivity(new Intent(NickNameActivity.this, MainActivity.class));
 
 
 
             }
         });
-
     }
+
+
 }

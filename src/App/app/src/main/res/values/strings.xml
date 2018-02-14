@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">The People\'s Playlist</string>
+    <string name="title_activity_nick_name">NickName</string>
 </resources>
