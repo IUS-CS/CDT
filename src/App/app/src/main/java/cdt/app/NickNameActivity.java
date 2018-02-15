@@ -21,7 +21,6 @@ public class NickNameActivity extends AppCompatActivity {
                 startActivity(new Intent(NickNameActivity.this, MainActivity.class));
 
 
-
             }
         });
 
