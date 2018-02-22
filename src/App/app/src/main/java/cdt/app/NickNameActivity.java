@@ -24,8 +24,9 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class NickNameActivity extends AppCompatActivity {
+import static android.widget.Toast.LENGTH_SHORT;
 
+public class NickNameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +103,8 @@ public class NickNameActivity extends AppCompatActivity {
                     startActivity(new Intent(NickNameActivity.this, MainActivity.class));
                 }//if
                 else {
-                    //display error message
+                    Toast t = Toast.makeText(NickNameActivity.this, "Enter a nickname", LENGTH_SHORT);
+                    t.show();
                 }//else
             }//onClick
         });//startAppButton
