@@ -7,16 +7,28 @@
     tools:context="cdt.app.NickNameActivity">
 
     <Button
-        android:id="@+id/mainButton.id"
+        android:id="@+id/saveNickNameButton.id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Main"
+        android:text="Save NickName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.008"></Button>
+        app:layout_constraintVertical_bias="0.388"></Button>
+
+    <Button
+        android:id="@+id/checkNickNameButton.id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check NickName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.555"></Button>
+
 
     <Button
         android:id="@+id/startAppButton.id"
@@ -27,18 +39,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.598"></Button>
+        app:layout_constraintVertical_bias="0.989"></Button>
 
     <EditText
-        android:id="@+id/plain_text_input"
+        android:id="@+id/nickName.id"
         android:layout_width="270dp"
         android:layout_height="44dp"
         android:inputType="text"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
+        app:layout_constraintVertical_bias="0.291" />
 
     <TextView
         android:id="@+id/promptNickName"
@@ -46,9 +59,21 @@
         android:layout_height="wrap_content"
         android:text="Enter a NickName below for yourself \nin order to start the App"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.384" />
+        app:layout_constraintVertical_bias="0.189" />
+
+    <TextView
+        android:id="@+id/currentNickName.id"
+        android:layout_width="176dp"
+        android:layout_height="40dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.687" />
 
 </android.support.constraint.ConstraintLayout>
