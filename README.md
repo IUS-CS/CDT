@@ -23,8 +23,8 @@ In android studio, choose File->Open and add the path to the App/ directory
 
 When the project is loaded do the following:
   
-  Build->Clean Project
-  Tools->Android->Sync Project With Gradle Files
+    Build->Clean Project
+    Tools->Android->Sync Project With Gradle Files
 
 For more information on compiling and running the CDT android application in Android Studio go [here](https://developer.android.com/studio/run/index.html)
 	
