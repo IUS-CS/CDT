@@ -11,10 +11,14 @@ When the App is launched, the user is greeted by an Activity that prompts them t
 Once the NickName check passes, they can proceed to the Main Activity (which can navigate to the Settings Activity which includes the NickName Activity and other settings) where they can connect to a server to create a lobby or join another lobby. 
 ### Join
 The user will be able to see who is in the lobby with them, along with the option to leave the lobby.   Each user will be permitted to add a song to the Queue, limited by a cooldown timer, and/or number of songs currently in the Queue. Song requests will be made to the server using http requests
+
+
 ![](JoinParty.png?raw=true)
 
 ### Host
 A Queue of YouTube videos (or sound only) will play on this Activity, powered by the YouTube API. The host will have the ability to remove songs that are deemed inappropriate for the party.
+
+
 ![](HostParty.png?raw=true)
 
 ### Settings
