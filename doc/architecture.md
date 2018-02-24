@@ -1,27 +1,25 @@
-##. interface
-#. The playlist application write in java for web container
-#. use a model view controller design
-#. the application model is handled by data-access objects to manage table data
-#. the view consists of files that display the data
+# Architecture
 
-##. controller
-#. the controller is made up of java servelts to mange the requests from the view and the data returned from the model
-#. create nickname
-#. add default nickname file
-#. create method to request json file
-#. create example json file for testing
+The Android Application will have the following Activities
+* Main
+* Join
+* Host
+* Settings
+### Startup
+When the app is launched, the user is greeted by an activity that prompts them to enter a nickname which is stored in a text file on the user’s Android device. This activity will also allow the user to check what they currently have saved as their nickname.  As long as the nickname is not blank, they will be able to proceed to the rest of the app (and be allowed to later navigate to this activity to change their nickname).
+### Main
+Once the nickname check passes, they can proceed to the Main activity (which can navigate to the Settings activity which includes the nickname activity and other settings) where they can connect to a server to create a lobby or join another lobby. 
+### Join
+The user will be able to see who is in the lobby with them, along with the option to leave the lobby.   Each user will be permitted to add a song to the queue, limited by a cool-down timer, and/or number of songs currently in the queue. Song requests will be made to the server using http requests
 
-##.service
-#. playlist components several separate comonents that encapsulate the funtionality of an online music service
-#. the song database a collection of digital musi files organized artist, track name, and genre
-#. user registration: creates users of music service
-#. collection of music files created by users
-#. overall data about the service
 
-## data model
-#. database tables differ signicficantly from the tables typically find in a relational database
-#. the tables are designed based on the relations between the entities represented by each table
-#. avoid duplication
-#. use separate tables for users organized by track name, artist, and genre
-#. use CQL or mxl data modeling documentation
+![](JoinParty.png?raw=true)
 
+### Host
+A queue of YouTube videos (or sound only) will play on this activity, powered by the YouTube API. The host will have the ability to remove songs that are deemed inappropriate for the party.
+
+
+![](HostParty.png?raw=true)
+
+### Settings
+Settings allows the user to make changes to app features like the user's nickname. User settings are stored in a file and are loaded when the application is loaded. 
