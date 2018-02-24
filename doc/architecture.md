@@ -23,4 +23,3 @@ A queue of YouTube videos (or sound only) will play on this activity, powered by
 
 ### Settings
 Settings allows the user to make changes to app features like the user's nickname. User settings are stored in a file and are loaded when the application is loaded. 
-
