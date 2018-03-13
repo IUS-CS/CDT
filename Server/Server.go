@@ -13,6 +13,7 @@ var parties []Party
 
 
 func main() {
+
 	//TODO these parties are just for testing. need to create parties dynamically
 	parties = append(parties, Party{Name: "FastArrow", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "5", Downvotes: "1"}})
 		parties = append(parties, Party{Name: "Waterfront", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "5", Downvotes: "1"}})
@@ -23,14 +24,23 @@ func main() {
 		parties = append(parties, Party{Name: "doggo", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "6", Downvotes: "3"}})
 
 		router := mux.NewRouter()
+
+		// routes for modifying parties
 		router.HandleFunc("/party", GetParties).Methods("GET")
 		router.HandleFunc("/party/{name}", GetParty).Methods("GET")
 		router.HandleFunc("/party/{name}", CreateParty).Methods("POST")
 		router.HandleFunc("/party/{name}", DeleteParty).Methods("DELETE")
+
+		// routes for modifying songs
+		router.HandleFunc("/party/{name}/{songId}", GetPartySong).Methods("GET")
+		router.HandleFunc("/party/{name}/{songId}", CreatePartySong).Methods("POST")
+		router.HandleFunc("/party/{name}/{songId}", DeletePartySong).Methods("DELETE")
+
+		// routes for voting on songs
+		router.HandleFunc("/party/{name}/{songId}/vote", UpvotePartySong).Methods("POST")
+		router.HandleFunc("/party/{name}/{songId}/vote", DownvotePartySong).Methods("DELETE")
+
 		log.Fatal(http.ListenAndServe(":8080", router))
-
-
-
 
 }
 
@@ -39,6 +49,8 @@ func GetParties(w http.ResponseWriter, r *http.Request)  {
 	json.NewEncoder(w).Encode(parties)
 }
 
+
+// gets party specified by name
 func GetParty(w http.ResponseWriter, r *http.Request)    {
 params := mux.Vars(r)
 			for _, item := range parties {
@@ -47,6 +59,9 @@ params := mux.Vars(r)
 				}
 			}
 }
+
+
+// creates a party by name
 func CreateParty(w http.ResponseWriter, r *http.Request) {
 params := mux.Vars(r)
 			parties = append(parties, Party{Name: params["name"], })
@@ -54,6 +69,7 @@ params := mux.Vars(r)
 }
 
 
+// deletes a party by name
 func DeleteParty(w http.ResponseWriter, r *http.Request) {
 params := mux.Vars(r)
 			for index, item := range parties {
@@ -65,6 +81,42 @@ params := mux.Vars(r)
 		json.NewEncoder(w).Encode(parties)
 
 }
+
+
+// gets a party song by party name and song id
+// TODO
+func GetPartySong(w http.ResponseWriter, r *http.Request) {
+
+	}
+	
+
+// creates a party song by party name and song id
+// TODO
+func CreatePartySong(w http.ResponseWriter, r *http.Request) {
+
+	}
+	
+
+// deletes a party song by party name and song id
+// TODO
+func DeletePartySong(w http.ResponseWriter, r *http.Request) {
+
+	}
+
+
+// upvotes a song by party name and sond id
+// TODO
+func UpvotePartySong(w http.ResponseWriter, r *http.Request) {
+
+	}
+
+// downvotes a song by party name and sond id
+// TODO
+func DownvotePartySong(w http.ResponseWriter, r *http.Request) {
+
+	}
+
+
 
 // this is for test testing
 func Sum(x int, y int) int {
