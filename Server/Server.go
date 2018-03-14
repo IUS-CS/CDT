@@ -14,8 +14,6 @@ var parties []Party
 
 func main() {
 
-	//TODO these parties are just for testing. need to create parties dynamically
-
 router := mux.NewRouter()
 
 			// routes for modifying parties
@@ -111,9 +109,18 @@ params := mux.Vars(r)
 
 
 // deletes a party song by party name and song id
-// TODO
 func DeletePartySong(w http.ResponseWriter, r *http.Request) {
-
+params := mux.Vars(r)
+			for i, item := range parties {
+				if item.Name == params["name"] {
+					for j, song := range parties[i].Songs {
+						if song.Id == params["songId"] {
+							parties[i].Songs = append(parties[i].Songs[:j], parties[i].Songs[j+1:]...)
+							json.NewEncoder(w).Encode(parties[i])
+						}
+					}
+				}
+			}
 }
 
 
