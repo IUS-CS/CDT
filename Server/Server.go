@@ -15,13 +15,6 @@ var parties []Party
 func main() {
 
 	//TODO these parties are just for testing. need to create parties dynamically
-	parties = append(parties, Party{Name: "FastArrow", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "5", Downvotes: "1"}})
-		parties = append(parties, Party{Name: "Waterfront", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "5", Downvotes: "1"}})
-		parties = append(parties, Party{Name: "abc", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "6", Downvotes: "3"}})
-		parties = append(parties, Party{Name: "dude", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "6", Downvotes: "3"}})
-		parties = append(parties, Party{Name: "party", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "6", Downvotes: "3"}})
-		parties = append(parties, Party{Name: "hello", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "6", Downvotes: "3"}})
-		parties = append(parties, Party{Name: "doggo", Song: &Song{Title: "Dusk Till Dawn", Id: "tt2k8PGm-TI", Img: "States://i.ytimg.com/vi/tt2k8PGm-TI/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAMjoIH9ewItfPK4HJ-Bse6k2ZM5w", Upvotes: "6", Downvotes: "3"}})
 
 		router := mux.NewRouter()
 
@@ -64,7 +57,8 @@ params := mux.Vars(r)
 // creates a party by name
 func CreateParty(w http.ResponseWriter, r *http.Request) {
 params := mux.Vars(r)
-			parties = append(parties, Party{Name: params["name"], })
+			// TODO add creation date to party
+			parties = append(parties, Party{Name: params["name"]})
 			json.NewEncoder(w).Encode(parties)
 }
 
@@ -93,7 +87,22 @@ func GetPartySong(w http.ResponseWriter, r *http.Request) {
 // creates a party song by party name and song id
 // TODO
 func CreatePartySong(w http.ResponseWriter, r *http.Request) {
-
+	params := mux.Vars(r)
+				for i, item := range parties {
+					if item.Name == params["name"] {
+						// TODO check if the song already exists and upvote if it does
+						// add the song to list of songs
+						parties[i].Songs = append(item.Songs, Song{Id: params["songId"], Upvotes: 0, Downvotes: 0})
+						/*
+						for _, song := range item.Songs {
+							if item.Name == params["name"] {
+								json.NewEncoder(w).Encode(item)
+							}
+						}
+						*/
+						json.NewEncoder(w).Encode(parties[i])
+					}
+				}
 	}
 	
 
@@ -117,22 +126,14 @@ func DownvotePartySong(w http.ResponseWriter, r *http.Request) {
 	}
 
 
-
-// this is for test testing
-func Sum(x int, y int) int {
-	return x + y
-}
-
 type Party struct {
-	Name  string   `json:"name,omitempty"`
+	Name  string   `json:"name"`
+	// TODO add a field for creation date
 		// TODO make this be an array of songs
-		Song   *Song `json:"Song,omitempty"`
+		Songs []Song `json:"songs"`
 }
 type Song struct {
-	Title  string `json:"title,omitempty"`
-		Id string `json:"id,omitempty"`
-		Img string `json:"img,omitempty"`
-		Upvotes string `json:"upvotes,omitempty"`
-		Downvotes string `json:"downvotes,omitempty"`
+		Id string `json:"id"`
+		Upvotes int `json:"upvotes"`
+		Downvotes int `json:"downvotes"`
 }
-
