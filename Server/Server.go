@@ -23,7 +23,6 @@ func main() {
 	router.HandleFunc("/party/{name}", DeleteParty).Methods("DELETE")
 
 	// routes for modifying songs
-	router.HandleFunc("/party/{name}/{songId}", GetPartySong).Methods("GET")
 	router.HandleFunc("/party/{name}/{songId}", CreatePartySong).Methods("POST")
 	router.HandleFunc("/party/{name}/{songId}", DeletePartySong).Methods("DELETE")
 
@@ -57,12 +56,26 @@ func GetParty(w http.ResponseWriter, r *http.Request)    {
 }
 
 
+// returns true if the party name is already on the server
+func partyExists(partyName string) bool {
+	for _, item := range parties {
+		if item.Name == partyName {
+			return true
+		}
+	}
+	return false
+}
 // creates a party by name
 func CreateParty(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	// TODO add creation date to party
-	parties = append(parties, Party{Name: params["name"]})
-	json.NewEncoder(w).Encode(parties)
+	// check to make sure the party does not already exists
+	if partyExists(params["name"]) {
+		// TODO print error message, there is already a party with this name
+	} else {
+		// TODO add creation date to party
+		parties = append(parties, Party{Name: params["name"]})
+		json.NewEncoder(w).Encode(parties)
+	}
 }
 
 
@@ -80,10 +93,19 @@ func DeleteParty(w http.ResponseWriter, r *http.Request) {
 }
 
 
-// gets a party song by party name and song id
-// TODO
-func GetPartySong(w http.ResponseWriter, r *http.Request) {
 
+// returns true if a party and song already exists on this server
+func songExists(partyName string, songId string) bool {
+	for i, item := range parties {
+		if item.Name == partyName {
+			for _, song := range parties[i].Songs {
+				if song.Id == songId {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 
@@ -92,10 +114,15 @@ func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	for i, item := range parties {
 		if item.Name == params["name"] {
-			// TODO check if the song already exists and upvote if it does
-			// add the song to list of songs
-			parties[i].Songs = append(item.Songs, Song{Id: params["songId"], Upvotes: 0, Downvotes: 0})
-			json.NewEncoder(w).Encode(parties[i])
+
+			// check if the song already exists and upvote if it does
+			if songExists(params["name"], params["songId"]) {
+				UpvotePartySong(w, r)
+				return
+			} else {
+				parties[i].Songs = append(item.Songs, Song{Id: params["songId"], Upvotes: 0, Downvotes: 0})
+				json.NewEncoder(w).Encode(parties[i])
+			}
 		}
 	}
 }
