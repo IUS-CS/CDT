@@ -16,35 +16,37 @@ func main() {
 
 	//TODO these parties are just for testing. need to create parties dynamically
 
-		router := mux.NewRouter()
+router := mux.NewRouter()
 
-		// routes for modifying parties
-		router.HandleFunc("/party", GetParties).Methods("GET")
-		router.HandleFunc("/party/{name}", GetParty).Methods("GET")
-		router.HandleFunc("/party/{name}", CreateParty).Methods("POST")
-		router.HandleFunc("/party/{name}", DeleteParty).Methods("DELETE")
+			// routes for modifying parties
+			router.HandleFunc("/party", GetParties).Methods("GET")
+			router.HandleFunc("/party/{name}", GetParty).Methods("GET")
+			router.HandleFunc("/party/{name}", CreateParty).Methods("POST")
+			router.HandleFunc("/party/{name}", DeleteParty).Methods("DELETE")
 
-		// routes for modifying songs
-		router.HandleFunc("/party/{name}/{songId}", GetPartySong).Methods("GET")
-		router.HandleFunc("/party/{name}/{songId}", CreatePartySong).Methods("POST")
-		router.HandleFunc("/party/{name}/{songId}", DeletePartySong).Methods("DELETE")
+			// routes for modifying songs
+			router.HandleFunc("/party/{name}/{songId}", GetPartySong).Methods("GET")
+			router.HandleFunc("/party/{name}/{songId}", CreatePartySong).Methods("POST")
+			router.HandleFunc("/party/{name}/{songId}", DeletePartySong).Methods("DELETE")
 
-		// routes for voting on songs
-		router.HandleFunc("/party/{name}/{songId}/vote", UpvotePartySong).Methods("POST")
-		router.HandleFunc("/party/{name}/{songId}/vote", DownvotePartySong).Methods("DELETE")
+			// routes for voting on songs
+			router.HandleFunc("/party/{name}/{songId}/vote", UpvotePartySong).Methods("POST")
+			router.HandleFunc("/party/{name}/{songId}/vote", DownvotePartySong).Methods("DELETE")
 
-		log.Fatal(http.ListenAndServe(":8080", router))
+			log.Fatal(http.ListenAndServe(":8080", router))
 
 }
 
 // gets all parties
 func GetParties(w http.ResponseWriter, r *http.Request)  {
+
 	json.NewEncoder(w).Encode(parties)
 }
 
 
 // gets party specified by name
 func GetParty(w http.ResponseWriter, r *http.Request)    {
+
 params := mux.Vars(r)
 			for _, item := range parties {
 				if item.Name == params["name"] {
@@ -81,59 +83,78 @@ params := mux.Vars(r)
 // TODO
 func GetPartySong(w http.ResponseWriter, r *http.Request) {
 
-	}
-	
+}
+
 
 // creates a party song by party name and song id
-// TODO
 func CreatePartySong(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-				for i, item := range parties {
-					if item.Name == params["name"] {
-						// TODO check if the song already exists and upvote if it does
-						// add the song to list of songs
-						parties[i].Songs = append(item.Songs, Song{Id: params["songId"], Upvotes: 0, Downvotes: 0})
+params := mux.Vars(r)
+			for i, item := range parties {
+				if item.Name == params["name"] {
+					// TODO check if the song already exists and upvote if it does
+					// add the song to list of songs
+					parties[i].Songs = append(item.Songs, Song{Id: params["songId"], Upvotes: 0, Downvotes: 0})
 						/*
-						for _, song := range item.Songs {
-							if item.Name == params["name"] {
-								json.NewEncoder(w).Encode(item)
-							}
-						}
-						*/
+						   for _, song := range item.Songs {
+						   if item.Name == params["name"] {
+						   json.NewEncoder(w).Encode(item)
+						   }
+						   }
+						 */
 						json.NewEncoder(w).Encode(parties[i])
-					}
 				}
-	}
-	
+			}
+}
+
 
 // deletes a party song by party name and song id
 // TODO
 func DeletePartySong(w http.ResponseWriter, r *http.Request) {
 
-	}
+}
 
+
+// TODO perhaps implement a feature where users can unupvote and undownvote
 
 // upvotes a song by party name and sond id
-// TODO
 func UpvotePartySong(w http.ResponseWriter, r *http.Request) {
-
-	}
+params := mux.Vars(r)
+			for i, item := range parties {
+				if item.Name == params["name"] {
+					for j, song := range parties[i].Songs {
+						if song.Id == params["songId"] {
+							parties[i].Songs[j].Upvotes += 1
+							json.NewEncoder(w).Encode(parties[i])
+						}
+					}
+				}
+			}
+}
 
 // downvotes a song by party name and sond id
-// TODO
 func DownvotePartySong(w http.ResponseWriter, r *http.Request) {
-
-	}
+params := mux.Vars(r)
+			for i, item := range parties {
+				if item.Name == params["name"] {
+					for j, song := range parties[i].Songs {
+						if song.Id == params["songId"] {
+							parties[i].Songs[j].Downvotes += 1
+							json.NewEncoder(w).Encode(parties[i])
+						}
+					}
+				}
+			}
+}
 
 
 type Party struct {
 	Name  string   `json:"name"`
-	// TODO add a field for creation date
+		// TODO add a field for creation date
 		// TODO make this be an array of songs
 		Songs []Song `json:"songs"`
 }
 type Song struct {
-		Id string `json:"id"`
+	Id string `json:"id"`
 		Upvotes int `json:"upvotes"`
 		Downvotes int `json:"downvotes"`
 }
