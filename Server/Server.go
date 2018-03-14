@@ -30,8 +30,11 @@ router := mux.NewRouter()
 			router.HandleFunc("/party/{name}/{songId}", DeletePartySong).Methods("DELETE")
 
 			// routes for voting on songs
-			router.HandleFunc("/party/{name}/{songId}/vote", UpvotePartySong).Methods("POST")
-			router.HandleFunc("/party/{name}/{songId}/vote", DownvotePartySong).Methods("DELETE")
+			router.HandleFunc("/party/{name}/{songId}/upvote", UpvotePartySong).Methods("POST")
+			router.HandleFunc("/party/{name}/{songId}/upvote", UndoUpvotePartySong).Methods("DELETE")
+
+			router.HandleFunc("/party/{name}/{songId}/downvote", DownvotePartySong).Methods("POST")
+			router.HandleFunc("/party/{name}/{songId}/downvote", UndoDownvotePartySong).Methods("DELETE")
 
 			log.Fatal(http.ListenAndServe(":8080", router))
 
@@ -114,7 +117,8 @@ func DeletePartySong(w http.ResponseWriter, r *http.Request) {
 }
 
 
-// TODO perhaps implement a feature where users can unupvote and undownvote
+// these next 4 methods arent good solutions, too much reused code
+// TODO redesign this by passing functions as parameters
 
 // upvotes a song by party name and sond id
 func UpvotePartySong(w http.ResponseWriter, r *http.Request) {
@@ -124,6 +128,20 @@ params := mux.Vars(r)
 					for j, song := range parties[i].Songs {
 						if song.Id == params["songId"] {
 							parties[i].Songs[j].Upvotes += 1
+							json.NewEncoder(w).Encode(parties[i])
+						}
+					}
+				}
+			}
+}
+// undo upvotes a song by party name and sond id
+func UndoUpvotePartySong(w http.ResponseWriter, r *http.Request) {
+params := mux.Vars(r)
+			for i, item := range parties {
+				if item.Name == params["name"] {
+					for j, song := range parties[i].Songs {
+						if song.Id == params["songId"] {
+							parties[i].Songs[j].Upvotes -= 1
 							json.NewEncoder(w).Encode(parties[i])
 						}
 					}
@@ -146,11 +164,25 @@ params := mux.Vars(r)
 			}
 }
 
+// undo downvote to a song by party name and sond id
+func UndoDownvotePartySong(w http.ResponseWriter, r *http.Request) {
+params := mux.Vars(r)
+			for i, item := range parties {
+				if item.Name == params["name"] {
+					for j, song := range parties[i].Songs {
+						if song.Id == params["songId"] {
+							parties[i].Songs[j].Downvotes -= 1
+							json.NewEncoder(w).Encode(parties[i])
+						}
+					}
+				}
+			}
+}
+
 
 type Party struct {
 	Name  string   `json:"name"`
 		// TODO add a field for creation date
-		// TODO make this be an array of songs
 		Songs []Song `json:"songs"`
 }
 type Song struct {
