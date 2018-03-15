@@ -10,12 +10,11 @@ CDT brings music collaboration to parties and other social gatherings through an
 ### Compiling and Running
 To run the server:
 
-	go run src/server/server.go
+	go run Server/server.go
 
-To compile server to a binary then run 
+To compile server to a binary
 
-	go build src/server/server.go
-	src/server/server
+	go build Server/Server.go
 
 To set up the android studio project: 
 
@@ -31,7 +30,7 @@ For more information on compiling and running the CDT android application in And
 ## Running the tests
 Server tests should be ran with the built in go test command
 
-	cd src/server/
+	cd Server/
 	go test 
 
 The CDT Android Application utilizes the Junit test suite in Android Studio. For information on running Junit tests with android studio go [here](https://developer.android.com/training/testing/unit-testing/local-unit-tests.html)
