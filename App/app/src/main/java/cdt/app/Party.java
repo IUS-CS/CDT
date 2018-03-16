@@ -1,7 +1,7 @@
 package cdt.app;
 
 /**
- * this class in in charge of holding party data
+ * this class in in charge of holding party
  */
 
 public class Party {

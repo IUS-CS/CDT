@@ -43,6 +43,9 @@ public class RefreshThread extends Thread {
             // request an parse json data into a part object
             Party p = parseJSONToParty(requestPartyData("Damir"));
 
+            // notify the main thread or other listeners of the new data
+            MainActivity.refreshManager.notifyRefresh(p);
+
             // attempt sleep for refresh time
             try {
                 sleep(refreshTime * 1000);
@@ -50,9 +53,7 @@ public class RefreshThread extends Thread {
                 Log.e(TAG, "Thread was interrupted while attempting refresh", e);
                 break;
             }
-
         }
-
     }
 
 
@@ -102,9 +103,9 @@ public class RefreshThread extends Thread {
             party.songs = new Song[jsonSongs.length()];
             for(int i = 0; i < party.songs.length; i++) {
                 party.songs[i] = new Song();
-                party.songs[i].id = jsonSongs.getJSONObject(0).getString("id");
-                party.songs[i].upvotes = jsonSongs.getJSONObject(0).getInt("upvotes");
-                party.songs[i].downvotes = jsonSongs.getJSONObject(0).getInt("downvotes");
+                party.songs[i].id = jsonSongs.getJSONObject(i).getString("id");
+                party.songs[i].upvotes = jsonSongs.getJSONObject(i).getInt("upvotes");
+                party.songs[i].downvotes = jsonSongs.getJSONObject(i).getInt("downvotes");
             }
 
         } catch (org.json.JSONException e) {

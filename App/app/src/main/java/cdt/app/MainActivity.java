@@ -1,6 +1,5 @@
 package cdt.app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,15 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RefreshListener {
+
+    Party party;
+    public static RefreshManager refreshManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +42,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // set this object to listen to refreshes
+        refreshManager = new RefreshManager();
+        refreshManager.addListener(this);
 
+
+        // start the refresher
         RefreshThread refresher = new RefreshThread(3);
         refresher.start();
     }
+
+    // refresh is called when the RefreshThread gets data
+    // from the server that should be displayed on the UI
+    @Override
+    public void refresh(Party party) {
+        this.party = party;
+        Log.d("refresh", party.name);
+        for(int i = 0 ; i < party.songs.length; i++)
+            Log.d("refresh", party.songs[i].id);
+    }
+
 
     /*
      * Loads a file from the assets folder as a string
