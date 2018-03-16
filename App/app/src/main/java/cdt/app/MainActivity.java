@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,21 +27,45 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+import static android.content.ContentValues.TAG;
+
+public class MainActivity extends YouTubeBaseActivity {
+
+    YouTubePlayerView mYouTubePlayerView;
+    Button playButton;
+    YouTubePlayer.OnInitializedListener mOnInitializedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button button = findViewById(R.id.button_id);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                final TextView buttonMessage = (TextView) findViewById(R.id.buttonMessage);
-                buttonMessage.setText("This button executed code!");
+        Log.d(TAG, "onCreate: Starting");
+
+        playButton = (Button) findViewById(R.id.playButton);
+        mYouTubePlayerView = (YouTubePlayerView) findViewById(R.id.youTubePlayer);
+
+        mOnInitializedListener = new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                Log.d(TAG, "onInitializationSuccess: Done initializing.");
+                youTubePlayer.loadVideo("TSrvSeMf9jk");
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Log.d(TAG, "onInitializationFailure: Failed to initialize.");
+            }
+        };
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Initializing YouTube Player.");
+                mYouTubePlayerView.initialize(YouTubeConfig.getApiKey(), mOnInitializedListener);
             }
         });
+
 
         final Button settingsButton = findViewById(R.id.settingsButton_id);
         settingsButton.setOnClickListener(new View.OnClickListener() {
