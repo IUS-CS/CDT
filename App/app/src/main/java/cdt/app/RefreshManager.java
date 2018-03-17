@@ -17,6 +17,6 @@ public class RefreshManager {
     // Notify all listeners of the new data.
     public void notifyRefresh(Party p) {
         for (RefreshListener hl : listeners)
-            hl.refresh(p);
+            hl.onRefreshEvent(p);
     }
 }

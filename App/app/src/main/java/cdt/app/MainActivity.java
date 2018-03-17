@@ -1,6 +1,9 @@
 package cdt.app;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,55 +45,41 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             }
         });
 
-        // set this object to listen to refreshes
+        // set this object to listen to refresh events
         refreshManager = new RefreshManager();
         refreshManager.addListener(this);
 
 
-        // start the refresher
-        RefreshThread refresher = new RefreshThread(3);
+        // start the refresher and specify time between each refresh
+        RefreshThread refresher = new RefreshThread(7);
         refresher.start();
     }
 
-    // refresh is called when the RefreshThread gets data
+
+    // onRefreshEvent is called when the RefreshThread gets data
     // from the server that should be displayed on the UI
     @Override
-    public void refresh(Party party) {
+    public void onRefreshEvent(Party party) {
+        // set the party with new data
         this.party = party;
-        Log.d("refresh", party.name);
-        for(int i = 0 ; i < party.songs.length; i++)
-            Log.d("refresh", party.songs[i].id);
+        // let the refresh handler update the list of songs on the UI thread because
+        // UI operations cannot be done on the worker thread this event is called from
+        Message message = refreshHandler.obtainMessage();
+        message.sendToTarget();
     }
 
-
-    /*
-     * Loads a file from the assets folder as a string
-     */
-    public String loadFileFromAsset(String filename) {
-        String json = null;
-        try {
-
-            // print assets in assets folder
-            try {
-                Log.d("TAG", Arrays.toString(getAssets().list(".")));
-            } catch (IOException e) {
-                Log.e("TAG", e.getLocalizedMessage(), e);
-            }
-
-            InputStream is = this.getAssets().open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Toast toast = Toast.makeText(this, "could not read file", 3);
+    // create a handler object for handling refresh on UI thread
+    Handler refreshHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        // this method is ran on the UI thread when a refresh event happens.
+        // TODO: Have this method update the list of songs
+        public void handleMessage(Message message) {
+            Toast toast = Toast.makeText(MainActivity.this, "Refreshed", Toast.LENGTH_SHORT);
             toast.show();
-            return null;
         }
-        return json;
-    }
+    };
+
+
 }
 
 

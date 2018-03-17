@@ -26,10 +26,10 @@ public class RefreshThread extends Thread {
     private static final String TAG = "Refresh";
 
 
-    // the amount of time between party data requests (~=refresh time)
+    // the amount of time between party data requests (~=onRefreshEvent time)
     private int refreshTime;
 
-    // constructor sets refresh time
+    // constructor sets onRefreshEvent time
     public RefreshThread(int refreshTime) {
         this.refreshTime = refreshTime;
     }
@@ -46,11 +46,11 @@ public class RefreshThread extends Thread {
             // notify the main thread or other listeners of the new data
             MainActivity.refreshManager.notifyRefresh(p);
 
-            // attempt sleep for refresh time
+            // attempt sleep for onRefreshEvent time
             try {
                 sleep(refreshTime * 1000);
             } catch (java.lang.InterruptedException e) {
-                Log.e(TAG, "Thread was interrupted while attempting refresh", e);
+                Log.e(TAG, "Thread was interrupted while attempting onRefreshEvent", e);
                 break;
             }
         }

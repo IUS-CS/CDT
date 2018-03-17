@@ -5,5 +5,5 @@ package cdt.app;
  */
 
 public interface RefreshListener {
-    void refresh(Party p);
+    void onRefreshEvent(Party p);
 }
