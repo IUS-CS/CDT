@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     Party party;
     public static RefreshManager refreshManager;
+    // length of time between each party data refresh
+    private static final int REFRESHTIME = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         // start the refresher and specify time between each refresh
-        RefreshThread refresher = new RefreshThread(7);
+        RefreshThread refresher = new RefreshThread(REFRESHTIME);
         refresher.start();
     }
 
@@ -74,8 +76,16 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // this method is ran on the UI thread when a refresh event happens.
         // TODO: Have this method update the list of songs
         public void handleMessage(Message message) {
-            Toast toast = Toast.makeText(MainActivity.this, "Refreshed", Toast.LENGTH_SHORT);
-            toast.show();
+
+            // display song data for testing this should be a scrollabe list in the future
+            String s = "";
+            s += "Party Name: " + party.name + "\n\n";
+            for(int i = 0; i < party.songs.length; i++) {
+                s += "Song " + i + ":\t" + party.songs[i].id + "\n";
+                s+= "\t\t Upvotes: " + party.songs[i].upvotes + " \t\tDownvotes: " + party.songs[i].downvotes + "\n\n";
+            }
+            final TextView testText = (TextView) findViewById(R.id.id_test_party_data);
+            testText.setText(s);
         }
     };
 
