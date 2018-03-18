@@ -1,22 +1,19 @@
 package cdt.app;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * manages listeners that need updated on refreshes
+ * manages the listener that need updated on refreshes
  */
 
 public class RefreshManager {
-    private List<RefreshListener> listeners = new ArrayList<RefreshListener>();
+    private static RefreshListener listener;
 
-    public void addListener(RefreshListener toAdd) {
-        listeners.add(toAdd);
+    // sets the listener to a class implementing RefreshListener
+    public static void setListener(RefreshListener newListener) {
+        listener = newListener;
     }
 
-    // Notify all listeners of the new data.
-    public void notifyRefresh(Party p) {
-        for (RefreshListener hl : listeners)
-            hl.onRefreshEvent(p);
+    // Notify the listener of the new data.
+    public static void notifyRefresh(Party p) {
+        listener.onRefreshEvent(p);
     }
 }

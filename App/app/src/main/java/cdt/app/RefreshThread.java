@@ -44,7 +44,7 @@ public class RefreshThread extends Thread {
             Party p = parseJSONToParty(requestPartyData("Damir"));
 
             // notify the main thread or other listeners of the new data
-            MainActivity.refreshManager.notifyRefresh(p);
+            RefreshManager.notifyRefresh(p);
 
             // attempt sleep for onRefreshEvent time
             try {
