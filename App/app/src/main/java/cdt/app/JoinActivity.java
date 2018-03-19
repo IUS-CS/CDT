@@ -65,8 +65,8 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
                 s += "Song " + i + ":\t" + party.songs[i].id + "\n";
                 s+= "\t\t Upvotes: " + party.songs[i].upvotes + " \t\tDownvotes: " + party.songs[i].downvotes + "\n\n";
             }
-            //final TextView testText = (TextView) findViewById(R.id.id_test_party_data);
-            //testText.setText(s);
+            final TextView testText = (TextView) findViewById(R.id.party_data_text_id);
+            testText.setText(s);
         }
     };
 }
