@@ -110,6 +110,7 @@ func songExists(partyName string, songId string) bool {
 
 
 // creates a party song by party name and song id
+// response returns ok if upvoted 
 func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	for i, item := range parties {
@@ -118,29 +119,42 @@ func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 			// check if the song already exists and upvote if it does
 			if songExists(params["name"], params["songId"]) {
 				UpvotePartySong(w, r)
+				w.WriteHeader(201)
 				return
 			} else {
 				parties[i].Songs = append(item.Songs, Song{Id: params["songId"], Upvotes: 0, Downvotes: 0})
-				json.NewEncoder(w).Encode(parties[i])
+				w.WriteHeader(200)
+				return
 			}
 		}
 	}
+	w.WriteHeader(404)
 }
 
 
 // deletes a party song by party name and song id
 func DeletePartySong(w http.ResponseWriter, r *http.Request) {
+
+	// TODO check if user making request has permission to delete song
+	/*
+	if user != partyOwner {
+		w.WriteHeader(StatusCode.FORBIDDEN)
+	}
+	*/
+
 	params := mux.Vars(r)
 	for i, item := range parties {
 		if item.Name == params["name"] {
 			for j, song := range parties[i].Songs {
 				if song.Id == params["songId"] {
 					parties[i].Songs = append(parties[i].Songs[:j], parties[i].Songs[j+1:]...)
-					json.NewEncoder(w).Encode(parties[i])
+					w.WriteHeader(200)
+					return
 				}
 			}
 		}
 	}
+	w.WriteHeader(404)
 }
 
 
@@ -155,11 +169,13 @@ func UpvotePartySong(w http.ResponseWriter, r *http.Request) {
 			for j, song := range parties[i].Songs {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Upvotes += 1
-					json.NewEncoder(w).Encode(parties[i])
+					w.WriteHeader(200)
+					return
 				}
 			}
 		}
 	}
+	w.WriteHeader(404)
 }
 // undo upvotes a song by party name and sond id
 func UndoUpvotePartySong(w http.ResponseWriter, r *http.Request) {
@@ -169,11 +185,13 @@ func UndoUpvotePartySong(w http.ResponseWriter, r *http.Request) {
 			for j, song := range parties[i].Songs {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Upvotes -= 1
-					json.NewEncoder(w).Encode(parties[i])
+					w.WriteHeader(200)
+					return
 				}
 			}
 		}
 	}
+	w.WriteHeader(404)
 }
 
 // downvotes a song by party name and sond id
@@ -184,11 +202,13 @@ func DownvotePartySong(w http.ResponseWriter, r *http.Request) {
 			for j, song := range parties[i].Songs {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Downvotes += 1
-					json.NewEncoder(w).Encode(parties[i])
+					w.WriteHeader(200)
+					return
 				}
 			}
 		}
 	}
+	w.WriteHeader(404)
 }
 
 // undo downvote to a song by party name and sond id
@@ -199,11 +219,13 @@ func UndoDownvotePartySong(w http.ResponseWriter, r *http.Request) {
 			for j, song := range parties[i].Songs {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Downvotes -= 1
-					json.NewEncoder(w).Encode(parties[i])
+					w.WriteHeader(200)
+					return
 				}
 			}
 		}
 	}
+	w.WriteHeader(404)
 }
 
 
