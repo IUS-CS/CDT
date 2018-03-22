@@ -71,10 +71,11 @@ func CreateParty(w http.ResponseWriter, r *http.Request) {
 	// check to make sure the party does not already exists
 	if partyExists(params["name"]) {
 		// TODO print error message, there is already a party with this name
+		w.WriteHeader(403)
 	} else {
 		// TODO add creation date to party
 		parties = append(parties, Party{Name: params["name"]})
-		json.NewEncoder(w).Encode(parties)
+		w.WriteHeader(201)
 	}
 }
 
@@ -85,11 +86,11 @@ func DeleteParty(w http.ResponseWriter, r *http.Request) {
 	for index, item := range parties {
 		if item.Name == params["name"] {
 			parties = append(parties[:index], parties[index+1:]...)
-			break
+			w.WriteHeader(200)
+			return
 		}
 	}
-	json.NewEncoder(w).Encode(parties)
-
+	w.WriteHeader(404)
 }
 
 
