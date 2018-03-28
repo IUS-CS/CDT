@@ -136,7 +136,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         } else {
 
             // begin downloading user photo
-            new DownloadGooglePhoto().execute(acct.getPhotoUrl().toString());
+            if (acct.getPhotoUrl() != null) {
+                new DownloadGooglePhoto().execute(acct.getPhotoUrl().toString());
+            } else {
+                // set the image to a stock image if no account photo exists
+                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.headshotdefault);
+                setUserPhoto(bm);
+            }
 
             TextView firstName = (TextView) findViewById(R.id.id_firstname);
             firstName.setText(acct.getGivenName());

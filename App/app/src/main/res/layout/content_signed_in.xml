@@ -18,7 +18,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:text="You are currently logged in as:"
+        android:text="Currently logged in as:"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +37,7 @@
 
     <TextView
         android:id="@+id/id_email"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="23dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -46,7 +47,7 @@
 
     <TextView
         android:id="@+id/id_lastname"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="23dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -56,7 +57,7 @@
 
     <TextView
         android:id="@+id/id_firstname"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="23dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
