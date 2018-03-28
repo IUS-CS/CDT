@@ -46,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // check if user is already signed in
+        // launches the signInActivity if user is not signed in
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account == null) {
+            startActivity(new Intent(MainActivity.this, SignInActivity.class));
+        }
+    }
 }
 
 

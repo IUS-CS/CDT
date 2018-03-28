@@ -40,20 +40,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // check if user is already signed in
-        // launches the signInActivity if user is not signed in
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account == null) {
-            startActivity(new Intent(JoinActivity.this, SignInActivity.class));
-        }
-    }
-
-
-
 
     // onRefreshEvent is called when the RefreshThread gets data
     // from the server that should be displayed on the UI

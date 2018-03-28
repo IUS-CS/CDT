@@ -19,7 +19,7 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:text="You are currently logged in as:"
-        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,9 +29,10 @@
         android:layout_width="104dp"
         android:layout_height="94dp"
         android:layout_marginStart="8dp"
+        android:adjustViewBounds="false"
         app:layout_constraintStart_toStartOf="@+id/editText"
         app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@android:drawable/stat_sys_download" />
 
     <TextView
         android:id="@+id/id_email"
@@ -63,16 +64,15 @@
         app:layout_constraintStart_toEndOf="@+id/id_usr_img"
         app:layout_constraintTop_toTopOf="@+id/id_usr_img" />
 
-    <TextView
-        android:id="@+id/textView4"
+    <Button
+        android:id="@+id/id_continue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Not you?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/id_usr_img"
-        app:layout_constraintTop_toBottomOf="@+id/id_email" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Continue"
+        app:layout_constraintEnd_toStartOf="@+id/id_signout"
+        app:layout_constraintTop_toBottomOf="@+id/id_usr_img" />
 
     <Button
         android:id="@+id/id_signout"
@@ -81,7 +81,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Sign Out"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintStart_toEndOf="@+id/id_usr_img"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/id_usr_img" />
 </android.support.constraint.ConstraintLayout>
