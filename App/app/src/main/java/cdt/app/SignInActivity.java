@@ -31,7 +31,7 @@ import java.net.URLConnection;
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
     static final int RC_SIGN_IN = 1;
-    GoogleSignInClient mGoogleSignInClient;
+    public static GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

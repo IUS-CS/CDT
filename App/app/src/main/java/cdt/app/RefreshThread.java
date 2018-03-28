@@ -1,7 +1,6 @@
 package cdt.app;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,9 +21,7 @@ import java.nio.charset.Charset;
 
 public class RefreshThread extends Thread {
 
-
     private static final String TAG = "Refresh";
-
 
     // the amount of time between party data requests (~=onRefreshEvent time)
     private int refreshTime;
@@ -39,9 +36,12 @@ public class RefreshThread extends Thread {
 
         while (true) {
 
+            if (MainActivity.account == null || MainActivity.account.getEmail() == null) {
+                RefreshManager.notifyRefresh(null);
+            }
 
             // request an parse json data into a part object
-            Party p = parseJSONToParty(requestPartyData("Damir"));
+            Party p = parseJSONToParty(requestPartyData(MainActivity.account.getEmail(), "Damir"));
 
             // notify the main thread or other listeners of the new data
             RefreshManager.notifyRefresh(p);
@@ -56,12 +56,11 @@ public class RefreshThread extends Thread {
         }
     }
 
-
     // gets a string of the json data from the server
     // returns null
-    public String requestPartyData(String partyName) {
+    public String requestPartyData(String user, String partyName) {
 
-        String url = "http://www.solidaycl.com:8080/party/" + partyName;
+        String url = "http://www.solidaycl.com:8080/party/" + user + "/" + partyName;
 
         InputStream is;
         try {
