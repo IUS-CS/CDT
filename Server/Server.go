@@ -17,21 +17,21 @@ func main() {
 	router := mux.NewRouter()
 
 	// routes for modifying parties
-	router.HandleFunc("/party", GetParties).Methods("GET")
-	router.HandleFunc("/party/{name}", GetParty).Methods("GET")
-	router.HandleFunc("/party/{name}", CreateParty).Methods("POST")
-	router.HandleFunc("/party/{name}", DeleteParty).Methods("DELETE")
+	router.HandleFunc("/party/{user}", GetParties).Methods("GET")
+	router.HandleFunc("/party/{user}/{name}", GetParty).Methods("GET")
+	router.HandleFunc("/party/{user}/{name}", CreateParty).Methods("POST")
+	router.HandleFunc("/party/{user}/{name}", DeleteParty).Methods("DELETE")
 
 	// routes for modifying songs
-	router.HandleFunc("/party/{name}/{songId}", CreatePartySong).Methods("POST")
-	router.HandleFunc("/party/{name}/{songId}", DeletePartySong).Methods("DELETE")
+	router.HandleFunc("/party/{user}/{name}/{songId}", CreatePartySong).Methods("POST")
+	router.HandleFunc("/party/{user}/{name}/{songId}", DeletePartySong).Methods("DELETE")
 
 	// routes for voting on songs
-	router.HandleFunc("/party/{name}/{songId}/upvote", UpvotePartySong).Methods("POST")
-	router.HandleFunc("/party/{name}/{songId}/upvote", UndoUpvotePartySong).Methods("DELETE")
+	router.HandleFunc("/party/{user}/{name}/{songId}/upvote", UpvotePartySong).Methods("POST")
+	router.HandleFunc("/party/{user}/{name}/{songId}/upvote", UndoUpvotePartySong).Methods("DELETE")
 
-	router.HandleFunc("/party/{name}/{songId}/downvote", DownvotePartySong).Methods("POST")
-	router.HandleFunc("/party/{name}/{songId}/downvote", UndoDownvotePartySong).Methods("DELETE")
+	router.HandleFunc("/party/{user}/{name}/{songId}/downvote", DownvotePartySong).Methods("POST")
+	router.HandleFunc("/party/{user}/{name}/{songId}/downvote", UndoDownvotePartySong).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 
@@ -74,7 +74,7 @@ func CreateParty(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(403)
 	} else {
 		// TODO add creation date to party
-		parties = append(parties, Party{Name: params["name"]})
+		parties = append(parties, Party{Name: params["name"], Creator: params["user"]})
 		w.WriteHeader(201)
 	}
 }
@@ -85,6 +85,12 @@ func DeleteParty(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	for index, item := range parties {
 		if item.Name == params["name"] {
+
+			if params["user"] != item.Creator {
+				// return forbidden if user tries to delete party that isnt his
+				w.WriteHeader(403);
+				return
+			}
 			parties = append(parties[:index], parties[index+1:]...)
 			w.WriteHeader(200)
 			return
@@ -120,11 +126,11 @@ func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 			// check if the song already exists and upvote if it does
 			if songExists(params["name"], params["songId"]) {
 				UpvotePartySong(w, r)
-				w.WriteHeader(201)
+				w.WriteHeader(200)
 				return
 			} else {
-				parties[i].Songs = append(item.Songs, Song{Id: params["songId"], Upvotes: 0, Downvotes: 0})
-				w.WriteHeader(200)
+				parties[i].Songs = append(item.Songs, Song{Uploader: params["user"], Id: params["songId"], Upvotes: 0, Downvotes: 0})
+				w.WriteHeader(201)
 				return
 			}
 		}
@@ -136,18 +142,20 @@ func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 // deletes a party song by party name and song id
 func DeletePartySong(w http.ResponseWriter, r *http.Request) {
 
-	// TODO check if user making request has permission to delete song
-	/*
-	if user != partyOwner {
-		w.WriteHeader(StatusCode.FORBIDDEN)
-	}
-	*/
+
 
 	params := mux.Vars(r)
 	for i, item := range parties {
 		if item.Name == params["name"] {
 			for j, song := range parties[i].Songs {
 				if song.Id == params["songId"] {
+					
+					// check if user making request has permission to delete song
+					if params["user"] != parties[i].Creator && params["user"] != song.Uploader{
+						w.WriteHeader(403)
+						return
+					}
+
 					parties[i].Songs = append(parties[i].Songs[:j], parties[i].Songs[j+1:]...)
 					w.WriteHeader(200)
 					return
@@ -232,10 +240,12 @@ func UndoDownvotePartySong(w http.ResponseWriter, r *http.Request) {
 
 type Party struct {
 	Name  string   `json:"name"`
+	Creator string `json:"creator"`
 	// TODO add a field for creation date
 	Songs []Song `json:"songs"`
 }
 type Song struct {
+	Uploader string `json:"uploader"`
 	Id string `json:"id"`
 	Upvotes int `json:"upvotes"`
 	Downvotes int `json:"downvotes"`
