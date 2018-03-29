@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/signed_in_layout"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="cdt.app.SignInActivity"
+    tools:showIn="@layout/activity_sign_in">
+
+
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="296dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:text="Currently logged in as:"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/id_usr_img"
+        android:layout_width="104dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="false"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:srcCompat="@android:drawable/stat_sys_download" />
+
+    <TextView
+        android:id="@+id/id_email"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="email "
+        app:layout_constraintStart_toEndOf="@+id/id_usr_img"
+        app:layout_constraintTop_toBottomOf="@+id/id_lastname" />
+
+    <TextView
+        android:id="@+id/id_lastname"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="lastname"
+        app:layout_constraintStart_toEndOf="@+id/id_usr_img"
+        app:layout_constraintTop_toBottomOf="@+id/id_firstname" />
+
+    <TextView
+        android:id="@+id/id_firstname"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="firstname"
+        app:layout_constraintStart_toEndOf="@+id/id_usr_img"
+        app:layout_constraintTop_toTopOf="@+id/id_usr_img" />
+
+    <Button
+        android:id="@+id/id_continue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Continue"
+        app:layout_constraintEnd_toStartOf="@+id/id_signout"
+        app:layout_constraintTop_toBottomOf="@+id/id_usr_img" />
+
+    <Button
+        android:id="@+id/id_signout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Sign Out"
+        app:layout_constraintStart_toEndOf="@+id/id_usr_img"
+        app:layout_constraintTop_toBottomOf="@+id/id_usr_img" />
+</android.support.constraint.ConstraintLayout>

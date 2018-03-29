@@ -9,8 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 public class MainActivity extends AppCompatActivity {
 
+    public static GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +57,22 @@ public class MainActivity extends AppCompatActivity {
     // button to settings activity
     final Button settingsButton = findViewById(R.id.settingsButton_id);
         settingsButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-            // Code here executes on main thread after user presses button
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            }
+        });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // check if user is already signed in
+        // launches the signInActivity if user is not signed in
+        account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account == null) {
+            startActivity(new Intent(MainActivity.this, SignInActivity.class));
         }
-    });
-
+    }
 }
-}
-
-
-
-

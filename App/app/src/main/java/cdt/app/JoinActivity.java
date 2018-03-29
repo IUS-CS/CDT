@@ -1,5 +1,6 @@
 package cdt.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 
 public class JoinActivity extends AppCompatActivity implements RefreshListener {
@@ -35,8 +39,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         refresher.start();
 
     }
-
-
 
 
     // onRefreshEvent is called when the RefreshThread gets data

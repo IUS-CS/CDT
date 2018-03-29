@@ -16,21 +16,14 @@ public class SettingsActivity extends AppCompatActivity {
         final Button mainButton = findViewById(R.id.mainButton_id);
         mainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-
                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-
-
-
             }
         });
 
-        final Button nickNameButton = findViewById(R.id.nickNameButton_id);
+        final Button nickNameButton = findViewById(R.id.accountButton_id);
         nickNameButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-
-                startActivity(new Intent(SettingsActivity.this, NickNameActivity.class));
+                startActivity(new Intent(SettingsActivity.this, SignInActivity.class));
 
 
 
