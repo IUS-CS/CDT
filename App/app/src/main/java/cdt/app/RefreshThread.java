@@ -41,7 +41,7 @@ public class RefreshThread extends Thread {
             }
 
             // request an parse json data into a part object
-            Party p = parseJSONToParty(requestPartyData(MainActivity.account.getEmail(), "Damir"));
+            Party p = parseJSONToParty(requestPartyData(MainActivity.account.getEmail(), MainActivity.partyName));
 
             // notify the main thread or other listeners of the new data
             RefreshManager.notifyRefresh(p);

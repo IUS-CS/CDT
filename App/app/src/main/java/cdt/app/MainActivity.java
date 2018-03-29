@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static GoogleSignInAccount account;
 
+    // the party name is used by both the join and host activities
+    public static String partyName;
+
     AlertDialog dialog;
 
     @Override
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                                     "must put in party name to join",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            MainActivity.partyName = partyName.getText().toString();
                             dialog.dismiss();
                             startActivity(new Intent(MainActivity.this, JoinActivity.class));
                         }
@@ -65,11 +69,12 @@ public class MainActivity extends AppCompatActivity {
             continueButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (partyName.getText().toString().isEmpty() /*|| party name does not exist on server*/) {
+                    if (partyName.getText().toString().isEmpty()) {
                         Toast.makeText(MainActivity.this,
                                 "must put in party name to host",
                                 Toast.LENGTH_SHORT).show();
                     } else {
+                        MainActivity.partyName = partyName.getText().toString();
                         dialog.dismiss();
                         startActivity(new Intent(MainActivity.this, HostActivity.class));
                     }

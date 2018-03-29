@@ -1,22 +1,15 @@
 package cdt.app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
-
 public class JoinActivity extends AppCompatActivity implements RefreshListener {
+
 
     Party party;
     // length of time between each party data refresh
@@ -33,7 +26,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         // set this object to listen to refresh events
         RefreshManager.setListener(this);
 
-        // TODO: party name should get used somewhere as parameter
         // start the refresher and specify time between each refresh
         RefreshThread refresher = new RefreshThread(REFRESH_TIME);
         refresher.start();
