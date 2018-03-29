@@ -2,6 +2,7 @@ package cdt.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +43,6 @@ public class MainActivity extends YouTubeBaseActivity {
 
         Log.d(TAG, "onCreate: Starting");
 
-        playButton = (Button) findViewById(R.id.playButton);
         mYouTubePlayerView = (YouTubePlayerView) findViewById(R.id.youTubePlayer);
 
         mOnInitializedListener = new YouTubePlayer.OnInitializedListener() {
@@ -58,21 +58,13 @@ public class MainActivity extends YouTubeBaseActivity {
             }
         };
 
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Initializing YouTube Player.");
-                mYouTubePlayerView.initialize(YouTubeConfig.getApiKey(), mOnInitializedListener);
-            }
-        });
-
+        mYouTubePlayerView.initialize(YouTubeConfig.getApiKey(), mOnInitializedListener);
 
         final Button settingsButton = findViewById(R.id.settingsButton_id);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-
-                   startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
             }
         });
@@ -86,8 +78,6 @@ public class MainActivity extends YouTubeBaseActivity {
         */
 
     }
-
-
 
     /*
      * Parses the example json file in the assets folder and puts it into a Party object
