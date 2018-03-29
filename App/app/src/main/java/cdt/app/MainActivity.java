@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static GoogleSignInAccount account;
 
+    AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +40,16 @@ public class MainActivity extends AppCompatActivity {
                                     "must put in party name to join",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            dialog.dismiss();
                             startActivity(new Intent(MainActivity.this, JoinActivity.class));
                         }
                     }
                 });
+
+                // show the dialog
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -49,7 +57,30 @@ public class MainActivity extends AppCompatActivity {
     final Button hostButton = findViewById(R.id.host_button_id);
         hostButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
-            startActivity(new Intent(MainActivity.this, HostActivity.class));
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            final View view = getLayoutInflater().inflate(R.layout.dialog_host, null);
+            final EditText partyName = (EditText) view.findViewById(R.id.id_party_name_host);
+
+            Button continueButton = (Button) view.findViewById(R.id.id_host_dialog_continue);
+            continueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (partyName.getText().toString().isEmpty() /*|| party name does not exist on server*/) {
+                        Toast.makeText(MainActivity.this,
+                                "must put in party name to host",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        dialog.dismiss();
+                        startActivity(new Intent(MainActivity.this, HostActivity.class));
+                    }
+                }
+            });
+
+            // show the dialog
+            builder.setView(view);
+            dialog = builder.create();
+            dialog.show();
+
 
         }
     });
