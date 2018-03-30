@@ -10,8 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class JoinActivity extends AppCompatActivity implements RefreshListener {
 
@@ -76,20 +79,7 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         // this method is ran on the UI thread when a refresh event happens.
         // TODO: Have this method update the list of songs
         public void handleMessage(Message message) {
-
             songAdapter.notifyDataSetChanged();
-
-            /*
-            // display song data for testing this should be a scrollabe list in the future
-            String s = "";
-            s += "Party Name: " + party.name + "\n\n";
-            for(int i = 0; i < party.songs.length; i++) {
-                s += "Song " + i + ":\t" + party.songs[i].id + "\n";
-                s+= "\t\t Upvotes: " + party.songs[i].upvotes + " \t\tDownvotes: " + party.songs[i].downvotes + "\n\n";
-            }
-            final TextView testText = (TextView) findViewById(R.id.party_data_text_id);
-            testText.setText(s);
-            */
         }
     };
 
@@ -108,7 +98,7 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
 
         @Override
         public String getItem(int position) {
-            return JoinActivity.this.party.songs[position].id;
+            return JoinActivity.this.party.songs[position].title;
         }
 
         @Override
@@ -117,12 +107,12 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         }
 
         // gets the number of upvotes on a song at a position
-        private int getNumUpvotes(int position) {
+        protected int getNumUpvotes(int position) {
             return JoinActivity.this.party.songs[position].upvotes;
         }
 
         // gets the number of downvotes on a song at a position
-        private int getNumDownvotes(int position) {
+        protected int getNumDownvotes(int position) {
             return JoinActivity.this.party.songs[position].downvotes;
         }
 
@@ -132,10 +122,34 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
                 convertView = getLayoutInflater().inflate(R.layout.song_list_item_join, container, false);
             }
 
+            // set the song title
             ((TextView) convertView.findViewById(R.id.id_song_title))
                     .setText(getItem(position));
 
-/*
+            // to use the position we must use a variable declared final
+            final int p = position;
+
+            // set the upvote button action
+            ImageButton upvoteButton = (ImageButton) convertView.findViewById(R.id.id_upvote_button);
+            upvoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JoinActivity.this,"upvoted " + getItem(p), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // set the downvote button action
+            ImageButton downvoteButton = (ImageButton) convertView.findViewById(R.id.id_downvote_button);
+            downvoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JoinActivity.this,"downvoted " + getItem(p), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // set the number of votes (upvotes - downvotes
+            // color TextView green for positive and red for negative
+            /*
             ((TextView) convertView.findViewById(R.id.id_num_upvotes_downvotes))
                     .setText(getNumUpvotes(position) - getNumDownvotes(position));
                     */
