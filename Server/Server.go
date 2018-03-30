@@ -17,21 +17,25 @@ func main() {
 	router := mux.NewRouter()
 
 	// routes for modifying parties
-	router.HandleFunc("/party/{user}", GetParties).Methods("GET")
-	router.HandleFunc("/party/{user}/{name}", GetParty).Methods("GET")
-	router.HandleFunc("/party/{user}/{name}", CreateParty).Methods("POST")
-	router.HandleFunc("/party/{user}/{name}", DeleteParty).Methods("DELETE")
+	router.HandleFunc("/party/", GetParties).Methods("GET").Queries("id", "{id}")
+	router.HandleFunc("/party/{name}", GetParty).Methods("GET").Queries("id","{id}")
+	router.HandleFunc("/party/{name}", CreateParty).Methods("POST").Queries("id","{id}")
+	router.HandleFunc("/party/{name}", DeleteParty).Methods("DELETE").Queries("id","{id}")
 
 	// routes for modifying songs
-	router.HandleFunc("/party/{user}/{name}/{songId}", CreatePartySong).Methods("POST")
-	router.HandleFunc("/party/{user}/{name}/{songId}", DeletePartySong).Methods("DELETE")
+	router.HandleFunc("/party/{name}/{songId}", CreatePartySong).Methods("POST").
+	Queries("id","{id}").
+	Queries("title","{title}").
+	Queries("imageUrl", "{imageUrl}")
+	
+	router.HandleFunc("/party/{name}/{songId}", DeletePartySong).Methods("DELETE").Queries("id","{id}")
 
 	// routes for voting on songs
-	router.HandleFunc("/party/{user}/{name}/{songId}/upvote", UpvotePartySong).Methods("POST")
-	router.HandleFunc("/party/{user}/{name}/{songId}/upvote", UndoUpvotePartySong).Methods("DELETE")
+	router.HandleFunc("/party/{name}/{songId}/upvote", UpvotePartySong).Methods("POST").Queries("id", "{id}")
+	router.HandleFunc("/party/{name}/{songId}/upvote", UndoUpvotePartySong).Methods("DELETE").Queries("id","{id}")
 
-	router.HandleFunc("/party/{user}/{name}/{songId}/downvote", DownvotePartySong).Methods("POST")
-	router.HandleFunc("/party/{user}/{name}/{songId}/downvote", UndoDownvotePartySong).Methods("DELETE")
+	router.HandleFunc("/party/{name}/{songId}/downvote", DownvotePartySong).Methods("POST").Queries("id","{id}")
+	router.HandleFunc("/party/{name}/{songId}/downvote", UndoDownvotePartySong).Methods("DELETE").Queries("id","{id}")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 
@@ -68,13 +72,14 @@ func partyExists(partyName string) bool {
 // creates a party by name
 func CreateParty(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
+	id := r.FormValue("id")
 	// check to make sure the party does not already exists
 	if partyExists(params["name"]) {
-		// TODO print error message, there is already a party with this name
+		// forbidden there is already a party with this name
 		w.WriteHeader(403)
 	} else {
 		// TODO add creation date to party
-		parties = append(parties, Party{Name: params["name"], Creator: params["user"]})
+		parties = append(parties, Party{Name: params["name"], Creator: id})
 		w.WriteHeader(201)
 	}
 }
@@ -82,11 +87,12 @@ func CreateParty(w http.ResponseWriter, r *http.Request) {
 
 // deletes a party by name
 func DeleteParty(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
 	params := mux.Vars(r)
 	for index, item := range parties {
 		if item.Name == params["name"] {
 
-			if params["user"] != item.Creator {
+			if id != item.Creator {
 				// return forbidden if user tries to delete party that isnt his
 				w.WriteHeader(403);
 				return
@@ -120,6 +126,10 @@ func songExists(partyName string, songId string) bool {
 // response returns ok if upvoted 
 func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
+	id := r.FormValue("id")
+	title := r.FormValue("title")
+	imageUrl := r.FormValue("imageUrl")
+
 	for i, item := range parties {
 		if item.Name == params["name"] {
 
@@ -129,7 +139,7 @@ func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(200)
 				return
 			} else {
-				parties[i].Songs = append(item.Songs, Song{Uploader: params["user"], Id: params["songId"], Upvotes: 0, Downvotes: 0})
+				parties[i].Songs = append(item.Songs, Song{Uploader: id, Id: params["songId"], Title: title, ImageUrl: imageUrl, Upvotes: 0, Downvotes: 0})
 				w.WriteHeader(201)
 				return
 			}
@@ -142,7 +152,7 @@ func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 // deletes a party song by party name and song id
 func DeletePartySong(w http.ResponseWriter, r *http.Request) {
 
-
+	id := r.FormValue("id")
 
 	params := mux.Vars(r)
 	for i, item := range parties {
@@ -151,7 +161,7 @@ func DeletePartySong(w http.ResponseWriter, r *http.Request) {
 				if song.Id == params["songId"] {
 					
 					// check if user making request has permission to delete song
-					if params["user"] != parties[i].Creator && params["user"] != song.Uploader{
+					if id != parties[i].Creator && id != song.Uploader{
 						w.WriteHeader(403)
 						return
 					}
@@ -247,6 +257,8 @@ type Party struct {
 type Song struct {
 	Uploader string `json:"uploader"`
 	Id string `json:"id"`
+	Title string `json:"title"`
+	ImageUrl string `json:"imageUrl"`
 	Upvotes int `json:"upvotes"`
 	Downvotes int `json:"downvotes"`
 }
