@@ -5,8 +5,8 @@ package cdt.app;
  */
 
 public class Party {
-    String name;
+    public String name;
     //   String lastChange;
 //   String creator;
-    Song[] songs;
+    public Song[] songs;
 }

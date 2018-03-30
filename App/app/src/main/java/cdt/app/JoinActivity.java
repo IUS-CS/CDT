@@ -1,17 +1,27 @@
 package cdt.app;
 
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class JoinActivity extends AppCompatActivity implements RefreshListener {
 
 
+    // party data
     Party party;
+
+
+    public JoinSongListAdapter songAdapter;
+
     // length of time between each party data refresh
     private static final int REFRESH_TIME = 1;
 
@@ -19,9 +29,24 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+
+        // create a default party
+        party = new Party();
+        party.name = "default";
+        party.songs = new Song[1];
+        party.songs[0] = new Song();
+        party.songs[0].upvotes = 0;
+        party.songs[0].downvotes = 0;
+        party.songs[0].id = "abc";
+        party.songs[0].songName = "song title";
+
+
+
+
+        ListView songlist = findViewById(R.id.id_song_list_join_listview);
+        songAdapter = new JoinSongListAdapter();
+        songlist.setAdapter(songAdapter);
 
         // set this object to listen to refresh events
         RefreshManager.setListener(this);
@@ -29,7 +54,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         // start the refresher and specify time between each refresh
         RefreshThread refresher = new RefreshThread(REFRESH_TIME);
         refresher.start();
-
     }
 
 
@@ -52,6 +76,9 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         // TODO: Have this method update the list of songs
         public void handleMessage(Message message) {
 
+            songAdapter.notifyDataSetChanged();
+
+            /*
             // display song data for testing this should be a scrollabe list in the future
             String s = "";
             s += "Party Name: " + party.name + "\n\n";
@@ -61,6 +88,60 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
             }
             final TextView testText = (TextView) findViewById(R.id.party_data_text_id);
             testText.setText(s);
+            */
         }
     };
+
+
+
+
+
+    /**
+     * A simple array adapter that creates a list of cheeses.
+     */
+    private class JoinSongListAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return JoinActivity.this.party.songs.length;
+        }
+
+        @Override
+        public String getItem(int position) {
+            return JoinActivity.this.party.songs[position].id;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return JoinActivity.this.party.songs[position].id.hashCode();
+        }
+
+        // gets the number of upvotes on a song at a position
+        private int getNumUpvotes(int position) {
+            return JoinActivity.this.party.songs[position].upvotes;
+        }
+
+        // gets the number of downvotes on a song at a position
+        private int getNumDownvotes(int position) {
+            return JoinActivity.this.party.songs[position].downvotes;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup container) {
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.song_list_item_join, container, false);
+            }
+
+            ((TextView) convertView.findViewById(R.id.id_song_title))
+                    .setText(getItem(position));
+
+/*
+            ((TextView) convertView.findViewById(R.id.id_num_upvotes_downvotes))
+                    .setText(getNumUpvotes(position) - getNumDownvotes(position));
+                    */
+
+            // TODO load the image
+
+            return convertView;
+        }
+    }
 }
