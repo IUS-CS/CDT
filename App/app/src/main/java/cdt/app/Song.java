@@ -7,7 +7,8 @@ package cdt.app;
 
 public class Song {
     public String id;
-    public String songName;
+    public String title;
+    public String imageUrl;
     public int upvotes;
     public int downvotes;
 }

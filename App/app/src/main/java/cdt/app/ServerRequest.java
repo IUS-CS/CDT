@@ -13,44 +13,44 @@ public class ServerRequest {
 
     public static final String SERVER_ADDRESS = "http://www.solidaycl.com:8080/party/";
 
-    // creates a party on the server
-    public static int createParty(String user, String partyName) throws IOException{
-        return request("POST", SERVER_ADDRESS + user + "/" + partyName);
+    // creates a party on the server"
+    public static int createParty(String userId, String partyName) throws IOException{
+        return request("POST", SERVER_ADDRESS + partyName + "?id=" + userId);
     }
 
     // deletes a party on the server
-    public static int deleteParty(String user, String partyName) throws IOException{
-        return request("DELETE", SERVER_ADDRESS + user + "/" + partyName);
+    public static int deleteParty(String userId, String partyName) throws IOException{
+        return request("DELETE", SERVER_ADDRESS + partyName + "?id=" + userId);
     }
 
     // adds a song to the server
-    public static int addSong(String user, String partyName, String songID) throws IOException{
-        return request("POST", SERVER_ADDRESS + user + "/" + partyName + "/" + songID);
+    public static int addSong(String userId, String partyName, String songID, String title, String imageUrl) throws IOException{
+        return request("POST", SERVER_ADDRESS + partyName + "/" + songID + "&title=" + title + "&imageUrl=" + imageUrl);
     }
 
     // delete a song from the server
-    public static int deleteSong(String user, String partyName, String songID) throws IOException{
-        return request("DELETE", SERVER_ADDRESS + user + "/" + partyName + "/" + songID);
+    public static int deleteSong(String userId, String partyName, String songID) throws IOException{
+        return request("DELETE", SERVER_ADDRESS + partyName + "/" + songID + "?id=" + userId);
     }
 
     // adds an upvote to a song
-    public static int upvoteSong(String user, String partyName, String songID) throws IOException{
-        return request("POST", SERVER_ADDRESS + user + "/" + partyName + "/" + songID + "/upvote");
+    public static int upvoteSong(String userId, String partyName, String songID) throws IOException{
+        return request("POST", SERVER_ADDRESS + partyName + "/" + songID + "/upvote" + "?id=" + userId);
     }
 
     // removes the upvote for a song
-    public static int deleteUpvoteSong(String user, String partyName, String songID) throws IOException{
-        return request("DELETE", SERVER_ADDRESS + user + "/" + partyName + "/" + songID + "/upvote");
+    public static int deleteUpvoteSong(String userId, String partyName, String songID) throws IOException{
+        return request("DELETE", SERVER_ADDRESS + partyName + "/" + songID + "/upvote" + "?id=" + userId);
     }
 
     // adds a downvote to a song
-    public static int downvoteSong(String user, String partyName, String songID) throws IOException{
-        return request("POST", SERVER_ADDRESS + user + "/" + partyName + "/" + songID + "/downvote");
+    public static int downvoteSong(String userId, String partyName, String songID) throws IOException{
+        return request("POST", SERVER_ADDRESS + partyName + "/" + songID + "/downvote" + "?id=" + userId);
     }
 
     // deletes a downvote to a song
-    public static int deleteDownvoteSong(String user, String partyName, String songID) throws IOException{
-        return request("DELETE", SERVER_ADDRESS + user + "/" + partyName + "/" + songID + "/downvote");
+    public static int deleteDownvoteSong(String userId, String partyName, String songID) throws IOException{
+        return request("DELETE", SERVER_ADDRESS + partyName + "/" + songID + "/downvote" + "?id=" + userId);
     }
 
     // make a request to the server. returns the response code of the request

@@ -39,7 +39,8 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         party.songs[0].upvotes = 0;
         party.songs[0].downvotes = 0;
         party.songs[0].id = "abc";
-        party.songs[0].songName = "song title";
+        party.songs[0].title = "song title";
+        party.songs[0].imageUrl  = "helkasdfj";
 
 
 
