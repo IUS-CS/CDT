@@ -137,7 +137,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
             // begin downloading user photo
             if (acct.getPhotoUrl() != null) {
-                new DownloadGooglePhoto().execute(acct.getPhotoUrl().toString());
+                new DownloadPhoto() {
+                   @Override
+                   public void onPostExecute(Long result) {
+                       // where bm is the inherited bitmap image downloaded
+                       setUserPhoto(bm);
+                   }
+                }.execute(acct.getPhotoUrl().toString());
             } else {
                 // set the image to a stock image if no account photo exists
                 Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.headshotdefault);
@@ -161,40 +167,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    // sets the google photo of the user
+    // TODO check if null bm
     public void setUserPhoto(Bitmap bm) {
         ImageView usrImg = (ImageView) findViewById(R.id.id_usr_img);
         usrImg.setImageBitmap(bm);
     }
 
 
-    private class DownloadGooglePhoto extends AsyncTask<String, Integer, Long> {
-
-        Bitmap bm;
-
-        protected Long doInBackground(String... urls) {
-            bm = getImageBitmap(urls[0]);
-            return Long.valueOf(1);
-        }
-
-        private Bitmap getImageBitmap(String url) {
-            Bitmap bm = null;
-            try {
-                URL aURL = new URL(url);
-                URLConnection conn = aURL.openConnection();
-                conn.connect();
-                InputStream is = conn.getInputStream();
-                BufferedInputStream bis = new BufferedInputStream(is);
-                bm = BitmapFactory.decodeStream(bis);
-                bis.close();
-                is.close();
-            } catch (IOException e) {
-                Log.e("PHOTO_DOWNLOAD", "Error getting bitmap", e);
-            }
-            return bm;
-        }
-
-        protected void onPostExecute(Long result) {
-            SignInActivity.this.setUserPhoto(bm);
-        }
-    }
 }

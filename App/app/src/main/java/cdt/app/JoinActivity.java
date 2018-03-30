@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -146,6 +147,15 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
                     Toast.makeText(JoinActivity.this,"downvoted " + getItem(p), Toast.LENGTH_SHORT).show();
                 }
             });
+
+            final ImageView youtubeThumbnail = convertView.findViewById(R.id.id_song_thumbnail);
+            new DownloadPhoto() {
+                @Override
+                public void onPostExecute(Long result) {
+                    youtubeThumbnail.setImageBitmap(bm);
+                }
+            }.execute(party.songs[p].imageUrl);
+
 
             // set the number of votes (upvotes - downvotes
             // color TextView green for positive and red for negative
