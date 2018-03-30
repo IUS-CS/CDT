@@ -14,7 +14,7 @@
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/id_downvote_button"
-        app:layout_constraintEnd_toStartOf="@+id/id_num_upvotes_downvotes"
+        app:layout_constraintEnd_toStartOf="@+id/id_number_upvotes_and_downvotes"
         app:layout_constraintStart_toEndOf="@+id/id_song_title"
         app:layout_constraintTop_toTopOf="@+id/id_downvote_button"
         app:srcCompat="@drawable/upvotearrow" />
@@ -51,8 +51,8 @@
 
     <ImageView
         android:id="@+id/id_song_thumbnail"
-        android:layout_width="65dp"
-        android:layout_height="61dp"
+        android:layout_width="82dp"
+        android:layout_height="77dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -62,7 +62,7 @@
         app:srcCompat="@drawable/loading" />
 
     <TextView
-        android:id="@+id/id_num_upvotes_downvotes"
+        android:id="@+id/id_number_upvotes_and_downvotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

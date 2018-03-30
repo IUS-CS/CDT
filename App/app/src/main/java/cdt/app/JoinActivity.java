@@ -1,6 +1,7 @@
 package cdt.app;
 
 import android.app.ListActivity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -148,6 +149,7 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
                 }
             });
 
+            // load the youtube thumbnail image
             final ImageView youtubeThumbnail = convertView.findViewById(R.id.id_song_thumbnail);
             new DownloadPhoto() {
                 @Override
@@ -157,14 +159,16 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
             }.execute(party.songs[p].imageUrl);
 
 
-            // set the number of votes (upvotes - downvotes
+            // set the number of votes (upvotes - downvotes)
             // color TextView green for positive and red for negative
-            /*
-            ((TextView) convertView.findViewById(R.id.id_num_upvotes_downvotes))
-                    .setText(getNumUpvotes(position) - getNumDownvotes(position));
-                    */
-
-            // TODO load the image
+            int voteValue = getNumUpvotes(position) - getNumDownvotes(position);
+            TextView numUpvotesDownvotes = (TextView) convertView.findViewById(R.id.id_number_upvotes_and_downvotes);
+            numUpvotesDownvotes.setText(Integer.toString(voteValue));
+            if (voteValue < 0 ) {
+                numUpvotesDownvotes.setTextColor(Color.RED);
+            } else {
+                numUpvotesDownvotes.setTextColor(Color.GREEN);
+            }
 
             return convertView;
         }
