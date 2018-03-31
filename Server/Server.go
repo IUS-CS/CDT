@@ -19,6 +19,7 @@ func main() {
 	// routes for modifying parties
 	router.HandleFunc("/party/", GetParties).Methods("GET").Queries("id", "{id}")
 	router.HandleFunc("/party/{name}", GetParty).Methods("GET").Queries("id","{id}")
+	router.HandleFunc("/party/{name}", TryGetParty).Methods("HEAD").Queries("id","{id}")
 	router.HandleFunc("/party/{name}", CreateParty).Methods("POST").Queries("id","{id}")
 	router.HandleFunc("/party/{name}", DeleteParty).Methods("DELETE").Queries("id","{id}")
 
@@ -41,6 +42,17 @@ func main() {
 
 }
 
+// returns true if the party name is already on the server
+func partyExists(partyName string) bool {
+	for _, item := range parties {
+		if item.Name == partyName {
+			return true
+		}
+	}
+	return false
+}
+
+
 // gets all parties
 func GetParties(w http.ResponseWriter, r *http.Request)  {
 
@@ -59,16 +71,23 @@ func GetParty(w http.ResponseWriter, r *http.Request)    {
 	}
 }
 
+// tests if a party exists 
+// returns 404 if party not found
+// returns 200 if party exists
+func TryGetParty(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	// id := r.FormValue("id")
 
-// returns true if the party name is already on the server
-func partyExists(partyName string) bool {
-	for _, item := range parties {
-		if item.Name == partyName {
-			return true
-		}
+	if partyExists(params["name"]) {
+		// ok, the party exists
+		w.WriteHeader(200)
+	} else {
+		// forbidden there is already a party with this name
+		w.WriteHeader(404)
 	}
-	return false
 }
+
+
 // creates a party by name
 func CreateParty(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
