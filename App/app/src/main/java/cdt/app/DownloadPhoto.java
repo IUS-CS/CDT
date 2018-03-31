@@ -12,7 +12,7 @@ import java.net.URLConnection;
 
 /**
  * This class is used for downloading photos asynchronously
- * To use this class, inherit and override the onPostExecute method.
+ * To use this class, inherit and override the onFinish method.
  * to start the asynch task, call the execute method with the url as a parameter
  */
 
@@ -25,7 +25,7 @@ public abstract class DownloadPhoto extends AsyncTask<String, Integer, Long> {
         return Long.valueOf(1);
     }
 
-    private Bitmap getImageBitmap(String url) {
+    private static Bitmap getImageBitmap(String url) {
         Bitmap bm = null;
         try {
             URL aURL = new URL(url);
@@ -42,8 +42,16 @@ public abstract class DownloadPhoto extends AsyncTask<String, Integer, Long> {
         return bm;
     }
 
+    // executes on finish send the resulting bitmap
+    @Override
+    public void onPostExecute(Long result){
+        onFinish(bm);
+    }
+
     // must implement this method to use the bm
     // bm is null if download was unsuccessful
-    public abstract void onPostExecute(Long result);
+    public abstract void onFinish(Bitmap result);
+
 }
+
 

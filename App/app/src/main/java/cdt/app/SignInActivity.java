@@ -137,11 +137,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
             // begin downloading user photo
             if (acct.getPhotoUrl() != null) {
+                // TODO: come up with a better solution that won't leak
                 new DownloadPhoto() {
                    @Override
-                   public void onPostExecute(Long result) {
-                       // where bm is the inherited bitmap image downloaded
-                       setUserPhoto(bm);
+                   public void onFinish(Bitmap result) {
+                       setUserPhoto(result);
                    }
                 }.execute(acct.getPhotoUrl().toString());
             } else {

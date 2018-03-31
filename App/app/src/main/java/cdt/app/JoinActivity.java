@@ -1,6 +1,7 @@
 package cdt.app;
 
 import android.app.ListActivity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +29,7 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
     public JoinSongListAdapter songAdapter;
 
     // length of time between each party data refresh
-    private static final int REFRESH_TIME = 1;
+    private static final int REFRESH_TIME = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +87,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
     };
 
 
-
-
-
     /**
      * A simple array adapter that creates a list of cheeses.
      */
@@ -108,6 +106,10 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
             return JoinActivity.this.party.songs[position].id.hashCode();
         }
 
+        public String getId(int position) {
+            return JoinActivity.this.party.songs[position].id;
+        }
+
         // gets the number of upvotes on a song at a position
         protected int getNumUpvotes(int position) {
             return JoinActivity.this.party.songs[position].upvotes;
@@ -124,19 +126,38 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
                 convertView = getLayoutInflater().inflate(R.layout.song_list_item_join, container, false);
             }
 
-            // set the song title
-            ((TextView) convertView.findViewById(R.id.id_song_title))
-                    .setText(getItem(position));
-
             // to use the position we must use a variable declared final
             final int p = position;
+            final View cView = convertView;
+
+            // set the song title
+            ((TextView) cView.findViewById(R.id.id_song_title))
+                    .setText(getItem(position));
+
 
             // set the upvote button action
-            ImageButton upvoteButton = (ImageButton) convertView.findViewById(R.id.id_upvote_button);
+            ImageButton upvoteButton = (ImageButton) cView.findViewById(R.id.id_upvote_button);
             upvoteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(JoinActivity.this,"upvoted " + getItem(p), Toast.LENGTH_SHORT).show();
+                    //TODO: begin load animation for the time until vote takes place
+                    party.songs[p].upvotes += 1; // change this so the app feels responsive
+                    //TODO: gray out button so user does not try to re-vote
+                    updateNumVotes(cView, p);
+
+                    //TODO: come up with a better solution that won't leak
+                    new RequestTask() {
+                        @Override
+                        public void onPostExecute(Long result) {
+                            int code = (int)((long)result);
+                            if(code == 200) {
+                                JoinSongListAdapter.this.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(JoinActivity.this, "unable to upvote, error code: " + code, Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }.execute(ServerRequest.upvoteSong(MainActivity.account.getId(), party.name, getId(p)));
                 }
             });
 
@@ -145,24 +166,50 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
             downvoteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(JoinActivity.this,"downvoted " + getItem(p), Toast.LENGTH_SHORT).show();
+                    //TODO: begin load animation for the time until vote takes place
+                    party.songs[p].upvotes -= 1; // change this so the app feels responsive
+                    //TODO: gray out button so user does not try to re-vote
+                    updateNumVotes(cView, p);
+
+                    //TODO: come up with a better solution that won't leak
+                    new RequestTask() {
+                        @Override
+                        public void onPostExecute(Long result) {
+                            int code = (int)((long)result);
+                            if(code == 200) {
+                                JoinSongListAdapter.this.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(JoinActivity.this, "unable to downvote, error code: " + code, Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }.execute(ServerRequest.downvoteSong(MainActivity.account.getId(), party.name, getId(p)));
+
                 }
             });
 
             // load the youtube thumbnail image
-            final ImageView youtubeThumbnail = convertView.findViewById(R.id.id_song_thumbnail);
+            final ImageView youtubeThumbnail = cView.findViewById(R.id.id_song_thumbnail);
+            // TODO: come up with a better solution that won't leak
             new DownloadPhoto() {
                 @Override
-                public void onPostExecute(Long result) {
-                    youtubeThumbnail.setImageBitmap(bm);
+                public void onFinish(Bitmap result) {
+                    youtubeThumbnail.setImageBitmap(result);
                 }
             }.execute(party.songs[p].imageUrl);
 
 
-            // set the number of votes (upvotes - downvotes)
-            // color TextView green for positive and red for negative
+            // update the number of votes
+            updateNumVotes(cView, p);
+
+            return cView;
+        }
+
+        // set the number of votes (upvotes - downvotes)
+        // color TextView green for positive and red for negative
+        public void updateNumVotes(View v, int position) {
             int voteValue = getNumUpvotes(position) - getNumDownvotes(position);
-            TextView numUpvotesDownvotes = (TextView) convertView.findViewById(R.id.id_number_upvotes_and_downvotes);
+            TextView numUpvotesDownvotes = (TextView) v.findViewById(R.id.id_number_upvotes_and_downvotes);
             numUpvotesDownvotes.setText(Integer.toString(voteValue));
             if (voteValue < 0 ) {
                 numUpvotesDownvotes.setTextColor(Color.RED);
@@ -170,7 +217,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
                 numUpvotesDownvotes.setTextColor(Color.GREEN);
             }
 
-            return convertView;
         }
     }
 }
