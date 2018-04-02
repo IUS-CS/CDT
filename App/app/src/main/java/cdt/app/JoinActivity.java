@@ -190,6 +190,8 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
 
             // load the youtube thumbnail image
             final ImageView youtubeThumbnail = cView.findViewById(R.id.id_song_thumbnail);
+            // TODO: I think this solution downloads the same image on every refresh, maybe create a class
+            // TODO:    that stores these images with their image id so less network is used
             // TODO: come up with a better solution that won't leak
             new DownloadPhoto() {
                 @Override

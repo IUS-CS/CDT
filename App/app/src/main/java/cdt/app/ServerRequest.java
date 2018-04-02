@@ -20,6 +20,11 @@ public class ServerRequest {
         return new String[] {"POST", SERVER_ADDRESS + partyName + "?id=" + userId};
     }
 
+    // tests to see if a party exists on the server or not
+    public static String[] checkPartyExists(String userId, String partyName) {
+        return new String[] {"HEAD", SERVER_ADDRESS + partyName + "?id=" + userId};
+    }
+
     // deletes a party on the server
     public static String[] deleteParty(String userId, String partyName) {
         return new String[] {"DELETE", SERVER_ADDRESS + partyName + "?id=" + userId};
