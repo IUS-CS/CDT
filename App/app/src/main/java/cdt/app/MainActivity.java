@@ -1,139 +1,114 @@
 package cdt.app;
 
-import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Arrays;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static GoogleSignInAccount account;
+
+    // the party name is used by both the join and host activities
+    public static String partyName;
+
+    AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button button = findViewById(R.id.button_id);
-        button.setOnClickListener(new View.OnClickListener() {
+        // Button to join a party
+        final Button joinButton = findViewById(R.id.join_button_id);
+        joinButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                final TextView buttonMessage = (TextView) findViewById(R.id.buttonMessage);
-                buttonMessage.setText("This button executed code!");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                final View view = getLayoutInflater().inflate(R.layout.dialog_join, null);
+                final EditText partyName = (EditText) view.findViewById(R.id.id_party_name_join);
+
+                Button continueButton = (Button) view.findViewById(R.id.id_join_dialog_continue);
+                continueButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (partyName.getText().toString().isEmpty() /*|| party name does not exist on server*/) {
+                            Toast.makeText(MainActivity.this,
+                                    "must put in party name to join",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            MainActivity.partyName = partyName.getText().toString();
+                            dialog.dismiss();
+                            startActivity(new Intent(MainActivity.this, JoinActivity.class));
+                        }
+                    }
+                });
+
+                // show the dialog
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.show();
             }
         });
 
-        final Button settingsButton = findViewById(R.id.settingsButton_id);
+    // button to host a party
+    final Button hostButton = findViewById(R.id.host_button_id);
+        hostButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            final View view = getLayoutInflater().inflate(R.layout.dialog_host, null);
+            final EditText partyName = (EditText) view.findViewById(R.id.id_party_name_host);
+
+            Button continueButton = (Button) view.findViewById(R.id.id_host_dialog_continue);
+            continueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (partyName.getText().toString().isEmpty()) {
+                        Toast.makeText(MainActivity.this,
+                                "must put in party name to host",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        MainActivity.partyName = partyName.getText().toString();
+                        dialog.dismiss();
+                        startActivity(new Intent(MainActivity.this, HostActivity.class));
+                    }
+                }
+            });
+
+            // show the dialog
+            builder.setView(view);
+            dialog = builder.create();
+            dialog.show();
+
+
+        }
+    });
+
+    // button to settings activity
+    final Button settingsButton = findViewById(R.id.settingsButton_id);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-
-                   startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
             }
         });
-
-
-        Party party = getPartyInfo();
-
-        /* example of how to get info from party object
-        Toast t = Toast.makeText(this, party.songs[0].title, 7);
-        t.show();
-        */
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-
-    /*
-     * Parses the example json file in the assets folder and puts it into a Party object
-     */
-    public Party getPartyInfo() {
-
-        Party party = new Party();
-        try {
-            JSONObject jsonPartyData = new JSONObject(loadFileFromAsset("Party.json"));
-            party.name = jsonPartyData.getString("name");
-            party.lastChange = jsonPartyData.getString("lastChange");
-            party.creator = jsonPartyData.getString("creator");
-            JSONArray jsonSongs = jsonPartyData.getJSONArray("songs");
-            party.songs = new Song[jsonSongs.length()];
-            for(int i = 0; i < party.songs.length; i++) {
-                party.songs[i] = new Song();
-                party.songs[i].title = jsonSongs.getJSONObject(0).getString("title");
-                party.songs[i].id = jsonSongs.getJSONObject(0).getString("id");
-                party.songs[i].img = jsonSongs.getJSONObject(0).getString("img");
-                party.songs[i].upvotes = jsonSongs.getJSONObject(0).getInt("upvotes");
-                party.songs[i].downvotes = jsonSongs.getJSONObject(0).getInt("downvotes");
-            }
-
-        } catch (org.json.JSONException e) {
-            Toast toast = Toast.makeText(this, "could not parse example json file", 3);
-            toast.show();
-
-            e.printStackTrace();
+        // check if user is already signed in
+        // launches the signInActivity if user is not signed in
+        account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account == null) {
+            startActivity(new Intent(MainActivity.this, SignInActivity.class));
         }
-        return party;
     }
-
-    /*
-     * Loads a file from the assets folder as a string
-     */
-    public String loadFileFromAsset(String filename) {
-        String json = null;
-        try {
-
-            // print assets in assets folder
-            try {
-                Log.d("TAG", Arrays.toString(getAssets().list(".")));
-            } catch (IOException e) {
-                Log.e("TAG", e.getLocalizedMessage(), e);
-            }
-
-            InputStream is = this.getAssets().open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Toast toast = Toast.makeText(this, "could not read file", 3);
-            toast.show();
-            return null;
-        }
-        return json;
-    }
-}
-
-
-class Party {
-   String name;
-   String lastChange;
-   String creator;
-   Song[] songs;
-}
-
-
-class Song {
-    public String title;
-    public String id;
-    public String img;
-    public int upvotes;
-    public int downvotes;
 }
