@@ -23,7 +23,4 @@ public class ExampleInstrumentedTest {
 
         assertEquals("cdt.app", appContext.getPackageName());
     }
-
-
-    // TODO: test
 }

@@ -57,47 +57,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    // button to host a party
-    final Button hostButton = findViewById(R.id.host_button_id);
+        // button to host a party
+        final Button hostButton = findViewById(R.id.host_button_id);
         hostButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            final View view = getLayoutInflater().inflate(R.layout.dialog_host, null);
-            final EditText partyName = (EditText) view.findViewById(R.id.id_party_name_host);
-
-            Button continueButton = (Button) view.findViewById(R.id.id_host_dialog_continue);
-            continueButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (partyName.getText().toString().isEmpty()) {
-                        Toast.makeText(MainActivity.this,
-                                "must put in party name to host",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        MainActivity.partyName = partyName.getText().toString();
-                        dialog.dismiss();
-                        startActivity(new Intent(MainActivity.this, HostActivity.class));
-                    }
-                }
-            });
-
-            // show the dialog
-            builder.setView(view);
-            dialog = builder.create();
-            dialog.show();
-
-
-        }
-    });
-
-    // button to settings activity
-    final Button settingsButton = findViewById(R.id.settingsButton_id);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                final View view = getLayoutInflater().inflate(R.layout.dialog_host, null);
+                final EditText partyName = (EditText) view.findViewById(R.id.id_party_name_host);
+
+                Button continueButton = (Button) view.findViewById(R.id.id_host_dialog_continue);
+                continueButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (partyName.getText().toString().isEmpty()) {
+                            Toast.makeText(MainActivity.this,
+                                    "must put in party name to host",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            MainActivity.partyName = partyName.getText().toString();
+                            dialog.dismiss();
+                            startActivity(new Intent(MainActivity.this, HostActivity.class));
+                        }
+                    }
+                });
+
+                // show the dialog
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.show();
+
 
             }
         });
+
     }
 
     @Override
