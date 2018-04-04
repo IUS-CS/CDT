@@ -8,10 +8,75 @@
     tools:context="cdt.app.HostActivity"
     tools:showIn="@layout/activity_host">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:minHeight="600dp">
+
+        <view
+            android:id="@+id/youTubePlayer"
+            class="com.google.android.youtube.player.YouTubePlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="287dp"
+            tools:layout_editor_absoluteX="88dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+        <EditText
+            android:id="@+id/searchVideoTextBox.id"
+            android:layout_width="270dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:inputType="text"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="@+id/addVideoTextBox.id"
+            app:layout_constraintHorizontal_bias="0.412"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/addVideoTextBox.id"
+            app:layout_constraintTop_toBottomOf="@+id/addVideoButton.id" />
+
+        <Button
+            android:id="@+id/searchVideoButton.id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Search"
+            app:layout_constraintEnd_toEndOf="@+id/searchVideoTextBox.id"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/searchVideoTextBox.id"
+            app:layout_constraintTop_toBottomOf="@+id/searchVideoTextBox.id" />
+
+
+        <EditText
+            android:id="@+id/addVideoTextBox.id"
+            android:layout_width="270dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:inputType="text"
+            android:text=""
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/youTubePlayer" />
+
+        <Button
+            android:id="@+id/addVideoButton.id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Add"
+            app:layout_constraintEnd_toEndOf="@+id/addVideoTextBox.id"
+            app:layout_constraintStart_toStartOf="@+id/addVideoTextBox.id"
+            app:layout_constraintTop_toBottomOf="@+id/addVideoTextBox.id" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v4.widget.NestedScrollView>
