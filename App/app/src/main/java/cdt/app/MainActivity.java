@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +28,17 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends YouTubeBaseActivity {
 
     YouTubePlayerView mYouTubePlayerView;
-    Button playButton;
     YouTubePlayer.OnInitializedListener mOnInitializedListener;
+
+    YouTubePlayer myYouTubePlayer;
+    boolean youTubeInitialized = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +47,16 @@ public class MainActivity extends YouTubeBaseActivity {
 
         Log.d(TAG, "onCreate: Starting");
 
+
+
         mYouTubePlayerView = (YouTubePlayerView) findViewById(R.id.youTubePlayer);
 
         mOnInitializedListener = new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Log.d(TAG, "onInitializationSuccess: Done initializing.");
-                youTubePlayer.loadVideo("TSrvSeMf9jk");
+                myYouTubePlayer = youTubePlayer;
+                youTubeInitialized = true;
             }
 
             @Override
@@ -60,6 +67,8 @@ public class MainActivity extends YouTubeBaseActivity {
 
         mYouTubePlayerView.initialize(YouTubeConfig.getApiKey(), mOnInitializedListener);
 
+
+
         final Button settingsButton = findViewById(R.id.settingsButton_id);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -69,6 +78,28 @@ public class MainActivity extends YouTubeBaseActivity {
             }
         });
 
+        final Button searchVideoButton = findViewById(R.id.searchVideoButton_id);
+        searchVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+
+            }
+        });
+
+        final Button addVideoButton = findViewById(R.id.addVideoButton_id);
+        addVideoButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                if(youTubeInitialized) {
+                    EditText data = (EditText)findViewById(R.id.addVideoTextBox_id);
+                    String video = data.getText().toString();
+                    myYouTubePlayer.loadVideo(video);
+                }
+                Log.d("hey", "pressed the button");
+
+            }
+        });
 
         Party party = getPartyInfo();
 
@@ -102,7 +133,7 @@ public class MainActivity extends YouTubeBaseActivity {
             }
 
         } catch (org.json.JSONException e) {
-            Toast toast = Toast.makeText(this, "could not parse example json file", 3);
+            Toast toast = Toast.makeText(this, "could not parse example json file", Toast.LENGTH_SHORT);
             toast.show();
 
             e.printStackTrace();
@@ -132,7 +163,7 @@ public class MainActivity extends YouTubeBaseActivity {
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
             ex.printStackTrace();
-            Toast toast = Toast.makeText(this, "could not read file", 3);
+            Toast toast = Toast.makeText(this, "could not read file", Toast.LENGTH_SHORT);
             toast.show();
             return null;
         }
