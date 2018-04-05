@@ -23,7 +23,8 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
 
 
     // party data
-    Party party;
+    protected Party party;
+
 
 
     public JoinSongListAdapter songAdapter;
@@ -36,7 +37,7 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-
+        //TODO: get rid of this bad code
         // create a default party
         party = new Party();
         party.name = "default";
