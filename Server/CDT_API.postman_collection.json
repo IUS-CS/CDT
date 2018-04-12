@@ -70,6 +70,69 @@
 			"response": []
 		},
 		{
+			"name": "Create Party Already Exists - cooldogs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7afef3f4-e3c7-4730-ae34-93f18543cf17",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/party/cooldogs?id=solidaycl",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "Marshmello - Alone (Official Music Video)",
+							"equals": true,
+							"disabled": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/ALZHF5UqnU4/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==%26rs=AOn4CLDul1fZdDrOpdOhfkC9lxlhftFfcw",
+							"equals": true,
+							"disabled": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
 			"name": "Add song - Marshmello - Alone",
 			"event": [
 				{
@@ -383,6 +446,71 @@
 			"response": []
 		},
 		{
+			"name": "Upvote song twice - XX Intro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e82253d-9648-49cf-81d0-c316ea52f782",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/party/cooldogs/_VPKfacgXao/upvote?id=solidaycl",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"_VPKfacgXao",
+						"upvote"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "The XX - Intro (Original Version)",
+							"equals": true,
+							"disabled": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/_VPKfacgXao/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=%26rs=AOn4CLA1v9e3udhdOdPJeyEW44WQEWGXSQ",
+							"equals": true,
+							"disabled": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
 			"name": "Downvote song - Josh Vietti - Lean Back",
 			"event": [
 				{
@@ -411,6 +539,68 @@
 					"mode": "raw",
 					"raw": ""
 				},
+				"url": {
+					"raw": "localhost:8080/party/cooldogs/bd9DDDRfhOs/downvote?id=solidaycl",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"bd9DDDRfhOs",
+						"downvote"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "The XX - Intro (Original Version)",
+							"equals": true,
+							"disabled": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/_VPKfacgXao/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=%26rs=AOn4CLA1v9e3udhdOdPJeyEW44WQEWGXSQ",
+							"equals": true,
+							"disabled": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Downvote song twice - Josh Vietti - Lean Back",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dc6a30b9-75b2-467c-b980-efd84e291105",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {},
 				"url": {
 					"raw": "localhost:8080/party/cooldogs/bd9DDDRfhOs/downvote?id=solidaycl",
 					"host": [
@@ -491,6 +681,58 @@
 						{
 							"key": "id",
 							"value": "solidaycl",
+							"equals": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Delete song with invalid ID- ColdPlay - Paradise",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ddc30587-d67d-4198-9fbd-1006df7caafb",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/party/cooldogs/1G4isv_Fylg?id=solidayclnotmyID",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"1G4isv_Fylg"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidayclnotmyID",
 							"equals": true
 						}
 					]
