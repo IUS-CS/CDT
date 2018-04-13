@@ -11,6 +11,7 @@ Example of how to run tests:
 
 ### Run the Tests
 First run the server in the background:
+
 	go run Server/Server.go& 
 
 Then run the newman collection runner on the postman collection:
