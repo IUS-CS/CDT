@@ -14,6 +14,7 @@ First run the server in the background:
 	go run Server/Server.go& 
 
 Then run the newman collection runner on the postman collection:
+
 	newman run Server/CDT_API.postman_collection.json 
 	
 Upon completion, the server process should be killed before runnning another test.
@@ -22,6 +23,7 @@ The output should be resemble the following:
 ![Newman test run](ExampleTest.png)
 
 This testing framework is also used to populate the server with data for manual tests. 
+
 	newman run Server/PopulateServer.json 
 
 # App Testing
