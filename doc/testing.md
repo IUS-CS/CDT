@@ -7,8 +7,6 @@ Server tests are created using [postman](https://www.getpostman.com/) and ran us
 * Postman 
 * Newman
 
-Example of how to run tests:
-
 ### Run the Tests
 First run the server in the background:
 
@@ -29,18 +27,18 @@ This testing framework is also used to populate the server with data for manual 
 
 # App Testing
 
-We are manually testing our app's features manually.  Every time we make an addition, we make sure that it does not break any previous work.
+We are testing our app's features manually.  Every time we make an addition, we make sure that it does not break any previous work.
 
 ### Manual Test #1 Host Party
-When the app is launched, the user can Host a party.  They should enter a name for the party and create it. If the user enters an invalid name, the app should notify them and allow them to try again.  If the server is is overpopulated, the user should be notified. The host's phone should then load the YouTube player which should then wait for YouTube video IDs to be added to the list.  The host's name should be added to the list of users connected to the party and they should also be able to see the current list of songs, as well as the users connected to the party, along with the ability to add songs/videos.
+When the app is launched, the user can Host a party.  They should enter a name for the party and create it. If the user enters an invalid name, the app should notify them and allow them to try again.  If the server is overpopulated, the user should be notified. The host's phone should then load the YouTube player which should then wait for YouTube video IDs to be added to the list.  The host's name should be added to the list of users connected to the party and they should be able to see the current list of songs, the users connected to the party, along with the ability to add songs/videos.
 
 ### Manual Test #2 Join Party
-When the app is launched, the user can Join a party.  They should enter the name of a party.  If they enter the name of a party that does not exist, they should be notified and be allowed to try again.  Once they join the party, their name should be added to the list of users connected to the party, they should be able to see the current list of songs, as well as the users connected to the party, along with the ability to add songs/videos.
+When the app is launched, the user can join a party.  They should enter the name of a party.  If they enter the name of a party that does not exist, they should be notified and be allowed to try again.  Once they join the party, their name should be added to the list of users connected to the party. They should be able to see the current list of songs, the users connected to the party, along with the ability to add songs/videos.
 
-### Manual Test #3 YouTube Player functionality
+### Manual Test #3 YouTube Player Functionality
 The YouTube player should pull the first video ID in the list, remove it from the list, and load the video and play it.  If list is empty, it should not do anything and wait for an ID to be added.  Once the YouTube player finishes the current song/video, it should should pull the next video ID in the list, remove it from the list and load and play the video.
 
-### Manual Test #4 Manually Adding Songs/videos
+### Manual Test #4 Manually Adding Songs/Videos
 Once a user is in a party, they should be able to add songs/videos to the list. Currently the app supports loading the YouTube player by manually entering video IDs (located at the end of the YouTube url).  If an invalid ID is entered, it should notify the user.
 
 ### Manual Test #5 YouTube Search
