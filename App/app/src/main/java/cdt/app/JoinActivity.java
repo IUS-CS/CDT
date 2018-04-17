@@ -37,7 +37,27 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-        //TODO: get rid of this bad code
+        populateWithExampleSong();
+
+        ListView songlist = findViewById(R.id.id_song_list_join_listview);
+        songAdapter = new JoinSongListAdapter();
+        songlist.setAdapter(songAdapter);
+
+    }
+
+
+    public void setRefresher() {
+        // set this object to listen to refresh events
+        RefreshManager.setListener(this);
+
+        // start the refresher and specify time between each refresh
+        RefreshThread refresher = new RefreshThread(REFRESH_TIME);
+        refresher.start();
+    }
+
+    // populates the party with one song so crashes dont happen.
+    //TODO: this should be implemented in different ways for released versions
+    public void populateWithExampleSong() {
         // create a default party
         party = new Party();
         party.name = "default";
@@ -48,20 +68,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         party.songs[0].id = "abc";
         party.songs[0].title = "song title";
         party.songs[0].imageUrl  = "helkasdfj";
-
-
-
-
-        ListView songlist = findViewById(R.id.id_song_list_join_listview);
-        songAdapter = new JoinSongListAdapter();
-        songlist.setAdapter(songAdapter);
-
-        // set this object to listen to refresh events
-        RefreshManager.setListener(this);
-
-        // start the refresher and specify time between each refresh
-        RefreshThread refresher = new RefreshThread(REFRESH_TIME);
-        refresher.start();
     }
 
 

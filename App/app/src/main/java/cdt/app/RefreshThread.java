@@ -57,7 +57,7 @@ public class RefreshThread extends Thread {
     }
 
     // gets a string of the json data from the server
-    // returns null
+    // returns null when io exception occurs
     public String requestPartyData(String userId, String partyName) {
 
         String url = "http://www.solidaycl.com:8080/party/" + partyName + "?id=userId";

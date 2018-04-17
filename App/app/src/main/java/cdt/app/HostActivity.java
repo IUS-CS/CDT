@@ -4,21 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import android.content.SharedPreferences;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
@@ -30,11 +23,8 @@ import static android.content.ContentValues.TAG;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-public class HostActivity extends AppCompatActivity /* implements RefreshListener */ {
+public class HostActivity extends JoinActivity /* implements RefreshListener */ {
 
-
-    YouTubePlayerView mYouTubePlayerView;
-    YouTubePlayer.OnInitializedListener mOnInitializedListener;
 
     boolean youTubeInitialized = false;
 
