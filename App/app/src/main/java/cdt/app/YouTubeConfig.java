@@ -6,8 +6,6 @@ package cdt.app;
 
 public class YouTubeConfig {
 
-    public YouTubeConfig(){}
-
     private static final String API_KEY = "AIzaSyCbfgco9w8CDZCWLhwu9NRQIKQayBi8Tlo";
 
     public static String getApiKey(){
