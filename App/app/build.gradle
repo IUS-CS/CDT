@@ -29,6 +29,8 @@ dependencies {
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.google.android.gms:play-services-auth:12.0.1'
     compile 'com.google.apis:google-api-services-youtube:v3-rev193-1.23.0'
+
+
     apply plugin: 'com.android.application'
     //apply plugin: 'com.google.gms.google-services'
 

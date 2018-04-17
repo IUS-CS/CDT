@@ -12,6 +12,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
+        //compile 'libs/YouTubeAndroidPlayerApi.jar'
+
 //        compile 'com.google.android.gms:play-services:11.2.0'
       //  compile 'com.google.apis:google-api-services-youtube:v3-rev193-1.23.0'
     }
