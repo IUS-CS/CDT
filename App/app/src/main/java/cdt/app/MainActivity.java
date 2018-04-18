@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 final View view = getLayoutInflater().inflate(R.layout.dialog_host, null);
-                final EditText partyName = (EditText) view.findViewById(R.id.id_party_name_host);
+                final EditText partyName = (EditText) view.findViewById(R.id.id_song_title_field);
 
                 Button continueButton = (Button) view.findViewById(R.id.id_host_dialog_continue);
                 continueButton.setOnClickListener(new View.OnClickListener() {

@@ -1,18 +1,19 @@
 package cdt.app;
 
-import android.app.ListActivity;
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,32 +33,14 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
     // length of time between each party data refresh
     private static final int REFRESH_TIME = 3;
 
+
+    AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-        populateWithExampleSong();
-
-        ListView songlist = findViewById(R.id.id_song_list_join_listview);
-        songAdapter = new JoinSongListAdapter();
-        songlist.setAdapter(songAdapter);
-
-    }
-
-
-    public void setRefresher() {
-        // set this object to listen to refresh events
-        RefreshManager.setListener(this);
-
-        // start the refresher and specify time between each refresh
-        RefreshThread refresher = new RefreshThread(REFRESH_TIME);
-        refresher.start();
-    }
-
-    // populates the party with one song so crashes dont happen.
-    //TODO: this should be implemented in different ways for released versions
-    public void populateWithExampleSong() {
         // create a default party
         party = new Party();
         party.name = "default";
@@ -68,8 +51,72 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         party.songs[0].id = "abc";
         party.songs[0].title = "song title";
         party.songs[0].imageUrl  = "helkasdfj";
-    }
 
+        ListView songlist = findViewById(R.id.id_song_list_join_listview);
+        songAdapter = new JoinSongListAdapter();
+        songlist.setAdapter(songAdapter);
+
+        // set this object to listen to refresh events
+        RefreshManager.setListener(this);
+
+        // start the refresher and specify time between each refresh
+        RefreshThread refresher = new RefreshThread(REFRESH_TIME);
+        refresher.start();
+
+
+        final Button addButton = findViewById(R.id.id_join_activity_add_song);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(JoinActivity.this);
+                final View view = getLayoutInflater().inflate(R.layout.dialog_add_song, null);
+                final EditText songQuery = (EditText) view.findViewById(R.id.id_song_title_field);
+
+                Button continueButton = (Button) view.findViewById(R.id.id_add_song_dialog_button);
+                continueButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (songQuery.getText().toString().isEmpty()) {
+                            Toast.makeText(JoinActivity.this,
+                                    "must put in something to search",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            final String query  = songQuery.getText().toString();
+                            new Thread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    final Song s = YouTubeSearch.Search(query);
+
+                                    new RequestTask() {
+                                        @Override
+                                        public void onPostExecute(Long result) {
+                                            int code = (int)((long)result);
+                                            if(code == 201) {
+                                                Toast.makeText(JoinActivity.this, "successfully added song: " + s.title, Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(JoinActivity.this, "Unable to add song, error code: " + code, Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }.execute(ServerRequest.addSong(MainActivity.account.getId(), MainActivity.partyName, s.id, s.title, s.imageUrl));
+                                }
+                            }).start();
+
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+                // show the dialog
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.show();
+
+
+            }
+        });
+
+
+    }
 
     // onRefreshEvent is called when the RefreshThread gets data
     // from the server that should be displayed on the UI

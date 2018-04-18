@@ -8,9 +8,11 @@
     tools:context="cdt.app.JoinActivity"
     tools:showIn="@layout/activity_join">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ListView
             android:id="@+id/id_song_list_join_listview"

@@ -32,7 +32,7 @@ public class ServerRequest {
 
     // adds a song to the server
     public static String[] addSong(String userId, String partyName, String songID, String title, String imageUrl) {
-        return new String[] {"POST", SERVER_ADDRESS + partyName + "/" + songID + "&title=" + title + "&imageUrl=" + imageUrl};
+        return new String[] {"POST", SERVER_ADDRESS + partyName + "/" + songID + "?id=" + userId + "&title=" + title + "&imageUrl=" + imageUrl};
     }
 
     // delete a song from the server

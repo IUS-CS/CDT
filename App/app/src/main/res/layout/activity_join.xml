@@ -37,5 +37,11 @@
         layout="@layout/content_join"
         />
 
+    <Button
+        android:id="@+id/id_join_activity_add_song"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Song" />
+
 
 </android.support.design.widget.CoordinatorLayout>
