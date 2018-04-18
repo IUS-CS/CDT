@@ -31,7 +31,7 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
     public JoinSongListAdapter songAdapter;
 
     // length of time between each party data refresh
-    private static final int REFRESH_TIME = 3;
+    protected static final int REFRESH_TIME = 3;
 
 
     AlertDialog dialog;
@@ -146,7 +146,7 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
     /**
      * A simple array adapter that creates a list of cheeses.
      */
-    private class JoinSongListAdapter extends BaseAdapter {
+    protected class JoinSongListAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return JoinActivity.this.party.songs.length;

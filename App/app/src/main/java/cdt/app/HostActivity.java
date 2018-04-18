@@ -12,6 +12,8 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
@@ -37,10 +39,30 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         initializeYoutubePlayer();
+
+        // create a default party
+        party = new Party();
+        party.name = "default";
+        party.songs = new Song[1];
+        party.songs[0] = new Song();
+        party.songs[0].upvotes = 0;
+        party.songs[0].downvotes = 0;
+        party.songs[0].id = "abc";
+        party.songs[0].title = "song title";
+        party.songs[0].imageUrl  = "helkasdfj";
+
+        ListView songlist = findViewById(R.id.id_song_list_host_listview);
+        songAdapter = new JoinSongListAdapter();
+        songlist.setAdapter(songAdapter);
+
+        // set this object to listen to refresh events
+        RefreshManager.setListener(this);
+
+        // start the refresher and specify time between each refresh
+        RefreshThread refresher = new RefreshThread(REFRESH_TIME);
+        refresher.start();
     }
 
     @Override
@@ -53,6 +75,7 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
         if (account == null) {
             startActivity(new Intent(HostActivity.this, SignInActivity.class));
 
+            /*
             final Button searchVideoButton = findViewById(R.id.searchVideoButton_id);
             searchVideoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,6 +97,7 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
 
                 }
             });
+            */
 
         }
     }

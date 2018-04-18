@@ -15,39 +15,10 @@
         android:minHeight="600dp">
 
         <fragment
-            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
             android:id="@+id/id_youtube_player_fragment"
+            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-
-        <EditText
-            android:id="@+id/searchVideoTextBox.id"
-            android:layout_width="270dp"
-            android:layout_height="44dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:inputType="text"
-            android:text=""
-            app:layout_constraintEnd_toEndOf="@+id/addVideoTextBox.id"
-            app:layout_constraintHorizontal_bias="0.412"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/addVideoTextBox.id"
-            app:layout_constraintTop_toBottomOf="@+id/addVideoButton.id" />
-
-        <Button
-            android:id="@+id/searchVideoButton.id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Search"
-            app:layout_constraintEnd_toEndOf="@+id/searchVideoTextBox.id"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/searchVideoTextBox.id"
-            app:layout_constraintTop_toBottomOf="@+id/searchVideoTextBox.id" />
+            android:layout_height="wrap_content" />
 
 
         <EditText
@@ -62,16 +33,24 @@
             app:layout_constraintTop_toBottomOf="@+id/id_youtube_player_fragment" />
 
         <Button
-            android:id="@+id/addVideoButton.id"
+            android:id="@+id/id_host_add_song"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Add"
+            android:text="Add Song"
             app:layout_constraintEnd_toEndOf="@+id/addVideoTextBox.id"
             app:layout_constraintStart_toStartOf="@+id/addVideoTextBox.id"
             app:layout_constraintTop_toBottomOf="@+id/addVideoTextBox.id" />
+
+
+        <ListView
+            android:id="@+id/id_song_list_host_listview"
+            android:layout_width="match_parent"
+            android:layout_height="1000dp"
+            tools:layout_editor_absoluteY="247dp" />
+
 
 
     </android.support.constraint.ConstraintLayout>
