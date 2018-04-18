@@ -121,8 +121,10 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
                     player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                         @Override
                         public void onVideoEnded () {
-                            YPlayer.loadVideo(party.songs[0].id);
-                            deleteSong(party.songs[0].id);
+                            if(party.songs.length > 0) {
+                                YPlayer.loadVideo(party.songs[0].id);
+                                deleteSong(party.songs[0].id);
+                            }
                         }
                         @Override
                         public void onError(YouTubePlayer.ErrorReason r) {
