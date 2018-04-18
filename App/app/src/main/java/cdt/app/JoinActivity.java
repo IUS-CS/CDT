@@ -120,6 +120,20 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
+    public void deleteSong(String songID) {
+        new RequestTask() {
+            @Override
+            public void onPostExecute(Long result) {
+                int code = (int)((long)result);
+                if(code == 200) {
+                    Toast.makeText(JoinActivity.this, "successfully removed song: ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(JoinActivity.this, "Unable to delete song, only the party host and the song adder can remove songs. code: "+code, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute(ServerRequest.deleteSong(MainActivity.account.getId(), MainActivity.partyName, songID ));
+    }
+
     // onRefreshEvent is called when the RefreshThread gets data
     // from the server that should be displayed on the UI
     @Override
