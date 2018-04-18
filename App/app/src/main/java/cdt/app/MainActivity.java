@@ -84,6 +84,19 @@ public class MainActivity extends AppCompatActivity {
                                     "must put in party name to host",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            new RequestTask() {
+                                @Override
+                                public void onPostExecute(Long result) {
+                                    int code = (int)((long)result);
+                                    if(code == 201) {
+                                        MainActivity.partyName = partyName.getText().toString();
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, HostActivity.class));
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "error code: " + code + " that party already exists, make sure you spelled it correctly", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.execute(ServerRequest.createParty(MainActivity.account.getId(), partyName.getText().toString()));
                             MainActivity.partyName = partyName.getText().toString();
                             dialog.dismiss();
                             startActivity(new Intent(MainActivity.this, HostActivity.class));

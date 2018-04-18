@@ -41,16 +41,6 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-        // create a default party
-        party = new Party();
-        party.name = "default";
-        party.songs = new Song[1];
-        party.songs[0] = new Song();
-        party.songs[0].upvotes = 0;
-        party.songs[0].downvotes = 0;
-        party.songs[0].id = "abc";
-        party.songs[0].title = "song title";
-        party.songs[0].imageUrl  = "helkasdfj";
 
         ListView songlist = findViewById(R.id.id_song_list_join_listview);
         songAdapter = new JoinSongListAdapter();
@@ -163,7 +153,11 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
     protected class JoinSongListAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return JoinActivity.this.party.songs.length;
+            if (JoinActivity.this.party == null || JoinActivity.this.party.songs == null) {
+                return 0;
+            } else  {
+                return JoinActivity.this.party.songs.length;
+            }
         }
 
         @Override

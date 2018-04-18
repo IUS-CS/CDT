@@ -98,15 +98,24 @@ public class RefreshThread extends Thread {
             party.name = jsonPartyData.getString("name");
             //party.lastChange = jsonPartyData.getString("lastChange");
             party.creator = jsonPartyData.getString("creator");
-            JSONArray jsonSongs = jsonPartyData.getJSONArray("songs");
-            party.songs = new Song[jsonSongs.length()];
-            for(int i = 0; i < party.songs.length; i++) {
-                party.songs[i] = new Song();
-                party.songs[i].id = jsonSongs.getJSONObject(i).getString("id");
-                party.songs[i].title = jsonSongs.getJSONObject(i).getString("title");
-                party.songs[i].imageUrl = jsonSongs.getJSONObject(i).getString("imageUrl");
-                party.songs[i].upvotes = jsonSongs.getJSONObject(i).getInt("upvotes");
-                party.songs[i].downvotes = jsonSongs.getJSONObject(i).getInt("downvotes");
+            JSONArray jsonSongs;
+            try {
+                jsonSongs = jsonPartyData.getJSONArray("songs");
+            } catch (org.json.JSONException e) {
+                jsonSongs = null;
+            }
+            if(jsonSongs != null) {
+                party.songs = new Song[jsonSongs.length()];
+                for (int i = 0; i < party.songs.length; i++) {
+                    party.songs[i] = new Song();
+                    party.songs[i].id = jsonSongs.getJSONObject(i).getString("id");
+                    party.songs[i].title = jsonSongs.getJSONObject(i).getString("title");
+                    party.songs[i].imageUrl = jsonSongs.getJSONObject(i).getString("imageUrl");
+                    party.songs[i].upvotes = jsonSongs.getJSONObject(i).getInt("upvotes");
+                    party.songs[i].downvotes = jsonSongs.getJSONObject(i).getInt("downvotes");
+                }
+            } else {
+                party.songs = null;
             }
 
         } catch (org.json.JSONException e) {
