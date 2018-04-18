@@ -118,9 +118,36 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
                         YPlayer.loadVideo(party.songs[0].id);
                         deleteSong(party.songs[0].id);
                     }
+                    player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                        @Override
+                        public void onVideoEnded () {
+                            YPlayer.loadVideo(party.songs[0].id);
+                            deleteSong(party.songs[0].id);
+                        }
+                        @Override
+                        public void onError(YouTubePlayer.ErrorReason r) {
 
+                        }
+                        @Override
+                        public void onAdStarted() {
+
+                        }
+                        @Override
+                        public void onLoaded(String videoId) {
+
+                        }
+                        @Override
+                        public void onLoading() {
+
+                        }
+                        @Override
+                        public void onVideoStarted() {
+
+                        }
+                    });
                 }
             }
+
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider arg0, YouTubeInitializationResult arg1) {
