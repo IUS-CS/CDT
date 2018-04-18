@@ -85,8 +85,10 @@ public class JoinActivity extends AppCompatActivity implements RefreshListener {
                             new Thread( new Runnable() {
                                 @Override
                                 public void run() {
+                                    // get the song from youtube from a search query
                                     final Song s = YouTubeSearch.Search(query);
 
+                                    // add the song to the server
                                     new RequestTask() {
                                         @Override
                                         public void onPostExecute(Long result) {

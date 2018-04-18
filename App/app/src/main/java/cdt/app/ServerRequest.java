@@ -22,7 +22,8 @@ public class ServerRequest {
 
     // tests to see if a party exists on the server or not
     public static String[] checkPartyExists(String userId, String partyName) {
-        return new String[] {"HEAD", SERVER_ADDRESS + partyName + "?id=" + userId};
+        String[] s  = new String[] {"HEAD", SERVER_ADDRESS + partyName + "?id=" + userId};
+        return s;
     }
 
     // deletes a party on the server

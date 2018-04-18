@@ -43,9 +43,19 @@ public class MainActivity extends AppCompatActivity {
                                     "must put in party name to join",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            MainActivity.partyName = partyName.getText().toString();
-                            dialog.dismiss();
-                            startActivity(new Intent(MainActivity.this, JoinActivity.class));
+                            new RequestTask() {
+                                @Override
+                                public void onPostExecute(Long result) {
+                                    int code = (int)((long)result);
+                                    if(code == 200) {
+                                        MainActivity.partyName = partyName.getText().toString();
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, JoinActivity.class));
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "error code: " + code + " that party does not exist, make sure you spelled it correctly", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.execute(ServerRequest.checkPartyExists(MainActivity.account.getId(), partyName.getText().toString()));
                         }
                     }
                 });
