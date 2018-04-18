@@ -1,0 +1,392 @@
+{
+	"info": {
+		"name": "CDT_API",
+		"_postman_id": "b6c8c14a-47bd-4640-b466-d9575dd23523",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add song - Coldplay - paradise",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eafbbba1-f112-4770-8e98-a91418ec0f38",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "solidaycl.com:8080/party/cooldogs/1G4isv_Fylg?id=solidaycl&title=Coldplay - Paradise (Official Video)&imageUrl=https://i.ytimg.com/vi/1G4isv_Fylg/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=%26rs=AOn4CLAmECyRZJ-w39FKcGVidh9vhQkVuQ",
+					"host": [
+						"solidaycl",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"1G4isv_Fylg"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "Coldplay - Paradise (Official Video)",
+							"equals": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/1G4isv_Fylg/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=%26rs=AOn4CLAmECyRZJ-w39FKcGVidh9vhQkVuQ",
+							"equals": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Add song - XX Intro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a9134ac7-119f-4d91-92bb-284d562c9a7a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "solidaycl.com:8080/party/cooldogs/_VPKfacgXao?id=solidaycl&title=The XX - Intro (Original Version)&imageUrl=https://i.ytimg.com/vi/_VPKfacgXao/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=%26rs=AOn4CLA1v9e3udhdOdPJeyEW44WQEWGXSQ",
+					"host": [
+						"solidaycl",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"_VPKfacgXao"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "The XX - Intro (Original Version)",
+							"equals": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/_VPKfacgXao/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=%26rs=AOn4CLA1v9e3udhdOdPJeyEW44WQEWGXSQ",
+							"equals": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Add song - Josh Vietti - Lean Back",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ae0dc30c-aeb8-404a-a154-2e6dd39d6a43",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "solidaycl.com:8080/party/cooldogs/bd9DDDRfhOs?id=solidaycl&title=Josh Vietti - Lean Back (Street Violin)&imageUrl=https://i.ytimg.com/vi/bd9DDDRfhOs/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==%26rs=AOn4CLCInQc7aotqgikWafqfbLxenQi2lQ",
+					"host": [
+						"solidaycl",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"bd9DDDRfhOs"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "Josh Vietti - Lean Back (Street Violin)",
+							"equals": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/bd9DDDRfhOs/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==%26rs=AOn4CLCInQc7aotqgikWafqfbLxenQi2lQ",
+							"equals": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Add song - Marshmello - Alone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "820fe1bd-81d5-417f-92e3-5507c5541819",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "solidaycl.com:8080/party/cooldogs/ALZHF5UqnU4?id=solidaycl&title=Marshmello - Alone (Official Music Video)&imageUrl=https://i.ytimg.com/vi/ALZHF5UqnU4/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==%26rs=AOn4CLDul1fZdDrOpdOhfkC9lxlhftFfcw",
+					"host": [
+						"solidaycl",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"ALZHF5UqnU4"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "Marshmello - Alone (Official Music Video)",
+							"equals": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/ALZHF5UqnU4/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==%26rs=AOn4CLDul1fZdDrOpdOhfkC9lxlhftFfcw",
+							"equals": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Create Party - cooldogs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed06ca21-f74b-4232-af33-722f2c50f90a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "solidaycl.com:8080/party/cooldogs?id=solidaycl",
+					"host": [
+						"solidaycl",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "Marshmello - Alone (Official Music Video)",
+							"equals": true,
+							"disabled": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/ALZHF5UqnU4/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==%26rs=AOn4CLDul1fZdDrOpdOhfkC9lxlhftFfcw",
+							"equals": true,
+							"disabled": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Upvote song - XX Intro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "609e2f29-e884-477d-a6a2-63cdec8ced79",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "solidaycl",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "solidaycl.com:8080/party/cooldogs/_VPKfacgXao/upvote?id=solidaycl",
+					"host": [
+						"solidaycl",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"party",
+						"cooldogs",
+						"_VPKfacgXao",
+						"upvote"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "solidaycl",
+							"equals": true
+						},
+						{
+							"key": "title",
+							"value": "The XX - Intro (Original Version)",
+							"equals": true,
+							"disabled": true
+						},
+						{
+							"key": "imageUrl",
+							"value": "https://i.ytimg.com/vi/_VPKfacgXao/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=%26rs=AOn4CLA1v9e3udhdOdPJeyEW44WQEWGXSQ",
+							"equals": true,
+							"disabled": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		}
+	]
+}
