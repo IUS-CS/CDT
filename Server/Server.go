@@ -64,10 +64,17 @@ func GetParties(w http.ResponseWriter, r *http.Request)  {
 func GetParty(w http.ResponseWriter, r *http.Request)    {
 
 	params := mux.Vars(r)
-	for _, item := range parties {
-		if item.Name == params["name"] {
-			json.NewEncoder(w).Encode(item)
+
+	if partyExists(params["name"]) { 
+		for _, item := range parties {
+			if item.Name == params["name"] {
+				json.NewEncoder(w).Encode(item)
+			}
 		}
+		w.WriteHeader(200)
+	} else {
+		// party does not exist
+		w.WriteHeader(404)
 	}
 }
 
