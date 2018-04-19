@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"sort"
 )
 
 // TODO come up with a way to store this better, maybe a database
@@ -162,11 +163,12 @@ func CreatePartySong(w http.ResponseWriter, r *http.Request) {
 			// check if the song already exists and upvote if it does
 			if songExists(params["name"], params["songId"]) {
 				UpvotePartySong(w, r)
-				w.WriteHeader(200)
+				sortSongs(item)
 				return
 			} else {
 				parties[i].Songs = append(item.Songs, Song{Uploader: id, Id: params["songId"], Title: title, ImageUrl: imageUrl, Upvotes: 0, Downvotes: 0})
 				w.WriteHeader(201)
+				sortSongs(item)
 				return
 			}
 		}
@@ -215,6 +217,7 @@ func UpvotePartySong(w http.ResponseWriter, r *http.Request) {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Upvotes += 1
 					w.WriteHeader(200)
+					sortSongs(item)
 					return
 				}
 			}
@@ -231,6 +234,7 @@ func UndoUpvotePartySong(w http.ResponseWriter, r *http.Request) {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Upvotes -= 1
 					w.WriteHeader(200)
+					sortSongs(item)
 					return
 				}
 			}
@@ -248,6 +252,7 @@ func DownvotePartySong(w http.ResponseWriter, r *http.Request) {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Downvotes += 1
 					w.WriteHeader(200)
+					sortSongs(item)
 					return
 				}
 			}
@@ -265,6 +270,7 @@ func UndoDownvotePartySong(w http.ResponseWriter, r *http.Request) {
 				if song.Id == params["songId"] {
 					parties[i].Songs[j].Downvotes -= 1
 					w.WriteHeader(200)
+					sortSongs(item)
 					return
 				}
 			}
@@ -273,6 +279,11 @@ func UndoDownvotePartySong(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(404)
 }
 
+func sortSongs(p Party) {
+	sort.Slice(p.Songs, func(i, j int) bool {
+	  return (p.Songs[i].Upvotes - p.Songs[i].Downvotes) > (p.Songs[j].Upvotes - p.Songs[j].Downvotes)
+	  })
+}
 
 type Party struct {
 	Name  string   `json:"name"`
