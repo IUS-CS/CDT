@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cdt.app">
 
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -13,21 +14,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="Settings"
-            />
-        <activity
-            android:name=".NickNameActivity"
-            android:label="Nickname">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings" />
+        <activity
+            android:name=".NickNameActivity"
+            android:label="Nickname">
+        </activity>
+        <activity
+            android:name=".JoinActivity"
+            android:label="@string/title_activity_join"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HostActivity"
+            android:label="@string/title_activity_host"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SignInActivity"
+            android:label="@string/title_activity_sign_in"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+</application>
 
-</manifest>
+    </manifest>

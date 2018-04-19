@@ -10,28 +10,29 @@ CDT brings music collaboration to parties and other social gatherings through an
 ### Compiling and Running
 To run the server:
 
-	go run src/server/server.go
+	go run Server/server.go
 
-To compile server to a binary then run 
+To compile server to a binary
 
-	go build src/server/server.go
-	src/server/server
+	go build Server/Server.go
 
-To set up the android studio project: 
+### Set Up the Android Studio Project: 
 
-In android studio, choose File->Open and add the path to the App/ directory
+* In android studio, choose File->Open and go to the path to the App/ directory
 
-When the project is loaded do the following:
+* When the project is loaded do the following:
   
     Build->Clean Project
     Tools->Android->Sync Project With Gradle Files
 
-For more information on compiling and running the CDT android application in Android Studio go [here](https://developer.android.com/studio/run/index.html)
+* Visit google's information page on implementing [google sign in](https://developers.google.com/identity/sign-in/android/start-integrating) and follow the directions for creating a new console project to get google sign in working with your android studio build.
+
+* For more information on compiling and running the CDT android application in Android Studio go [here](https://developer.android.com/studio/run/index.html)
 	
 ## Running the tests
 Server tests should be ran with the built in go test command
 
-	cd src/server/
+	cd Server/
 	go test 
 
 The CDT Android Application utilizes the Junit test suite in Android Studio. For information on running Junit tests with android studio go [here](https://developer.android.com/training/testing/unit-testing/local-unit-tests.html)

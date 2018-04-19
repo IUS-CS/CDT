@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="600dp">
+
+        <fragment
+            android:id="@+id/id_youtube_player_fragment"
+            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="220dp"
+            android:clipToPadding="false"
+            android:fillViewport="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_youtube_player_fragment"
+            tools:context="cdt.app.HostActivity"
+            tools:showIn="@layout/activity_host">
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="600dp">
+
+                        <EditText
+                            android:id="@+id/addVideoTextBox.id"
+                            android:layout_width="270dp"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="8dp"
+                            android:inputType="text"
+                            android:text=""
+                            app:layout_constraintHorizontal_bias="0.496"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/id_host_add_song"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Add Song"
+                            app:layout_constraintEnd_toEndOf="@+id/addVideoTextBox.id"
+                            app:layout_constraintHorizontal_bias="0.503"
+                            app:layout_constraintStart_toStartOf="@+id/addVideoTextBox.id"
+                            app:layout_constraintTop_toBottomOf="@+id/addVideoTextBox.id" />
+
+
+                        <ListView
+                            android:id="@+id/id_song_list_host_listview"
+                            android:layout_width="match_parent"
+                            android:layout_height="1000dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/id_host_add_song"
+                            tools:layout_editor_absoluteX="0dp" />
+
+                </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+</android.support.constraint.ConstraintLayout>
+
