@@ -170,7 +170,7 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
                     YPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
 
                     //cue the 1st video by default
-                    if(party.songs != null) {
+                    if(party.songs != null && party.songs.length > 0) {
                         YPlayer.loadVideo(party.songs[0].id);
                         deleteSong(party.songs[0].id);
                     }
