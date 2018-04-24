@@ -1,5 +1,6 @@
 package cdt.app;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +13,9 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -52,6 +55,59 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
         // start the refresher and specify time between each refresh
         RefreshThread refresher = new RefreshThread(REFRESH_TIME);
         refresher.start();
+
+        final Button addButton = findViewById(R.id.id_host_activity_add_song);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(HostActivity.this);
+                final View view = getLayoutInflater().inflate(R.layout.dialog_add_song, null);
+                final EditText songQuery = (EditText) view.findViewById(R.id.id_song_title_field);
+
+                Button continueButton = (Button) view.findViewById(R.id.id_add_song_dialog_button);
+                continueButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (songQuery.getText().toString().isEmpty()) {
+                            Toast.makeText(HostActivity.this,
+                                    "must put in something to search",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            final String query  = songQuery.getText().toString();
+                            new Thread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    // get the song from youtube from a search query
+                                    final Song s = YouTubeSearch.Search(query);
+
+                                    // add the song to the server
+                                    new RequestTask() {
+                                        @Override
+                                        public void onPostExecute(Long result) {
+                                            int code = (int)((long)result);
+                                            if(code == 201) {
+                                                Toast.makeText(HostActivity.this, "successfully added song: " + s.title, Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(HostActivity.this, "Unable to add song, error code: " + code, Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }.execute(ServerRequest.addSong(MainActivity.account.getId(), MainActivity.partyName, s.id, s.title, s.imageUrl));
+                                }
+                            }).start();
+
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+                // show the dialog
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.show();
+
+
+            }
+        });
     }
 
     @Override
@@ -114,7 +170,7 @@ public class HostActivity extends JoinActivity /* implements RefreshListener */ 
                     YPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
 
                     //cue the 1st video by default
-                    if(party.songs != null) {
+                    if(party.songs != null && party.songs.length > 0) {
                         YPlayer.loadVideo(party.songs[0].id);
                         deleteSong(party.songs[0].id);
                     }

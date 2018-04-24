@@ -93,13 +93,14 @@ public class MainActivity extends AppCompatActivity {
                                         dialog.dismiss();
                                         startActivity(new Intent(MainActivity.this, HostActivity.class));
                                     } else {
-                                        Toast.makeText(MainActivity.this, "error code: " + code + " that party already exists, make sure you spelled it correctly", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(MainActivity.this, "error code: " + code + " cohosting the party not supported", Toast.LENGTH_SHORT).show();
+                                        //TODO do a check if the user is the party owner and act accordingly
+                                        MainActivity.partyName = partyName.getText().toString();
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, HostActivity.class));
                                     }
                                 }
                             }.execute(ServerRequest.createParty(MainActivity.account.getId(), partyName.getText().toString()));
-                            MainActivity.partyName = partyName.getText().toString();
-                            dialog.dismiss();
-                            startActivity(new Intent(MainActivity.this, HostActivity.class));
                         }
                     }
                 });
