@@ -45,11 +45,13 @@ public abstract class RequestTask extends AsyncTask<String, Integer, Long> {
         String urlParameters = "";
 
         // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
+        if(method.equals("POST") || method.equals("DELETE")) {
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+        }
 
         return con.getResponseCode();
     }

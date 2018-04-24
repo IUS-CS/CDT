@@ -43,9 +43,19 @@ public class MainActivity extends AppCompatActivity {
                                     "must put in party name to join",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            MainActivity.partyName = partyName.getText().toString();
-                            dialog.dismiss();
-                            startActivity(new Intent(MainActivity.this, JoinActivity.class));
+                            new RequestTask() {
+                                @Override
+                                public void onPostExecute(Long result) {
+                                    int code = (int)((long)result);
+                                    if(code == 200) {
+                                        MainActivity.partyName = partyName.getText().toString();
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, JoinActivity.class));
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "error code: " + code + " that party does not exist, make sure you spelled it correctly", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.execute(ServerRequest.checkPartyExists(MainActivity.account.getId(), partyName.getText().toString()));
                         }
                     }
                 });
@@ -63,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 final View view = getLayoutInflater().inflate(R.layout.dialog_host, null);
-                final EditText partyName = (EditText) view.findViewById(R.id.id_party_name_host);
+                final EditText partyName = (EditText) view.findViewById(R.id.id_song_title_field);
 
                 Button continueButton = (Button) view.findViewById(R.id.id_host_dialog_continue);
                 continueButton.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +84,19 @@ public class MainActivity extends AppCompatActivity {
                                     "must put in party name to host",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            new RequestTask() {
+                                @Override
+                                public void onPostExecute(Long result) {
+                                    int code = (int)((long)result);
+                                    if(code == 201) {
+                                        MainActivity.partyName = partyName.getText().toString();
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, HostActivity.class));
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "error code: " + code + " that party already exists, make sure you spelled it correctly", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.execute(ServerRequest.createParty(MainActivity.account.getId(), partyName.getText().toString()));
                             MainActivity.partyName = partyName.getText().toString();
                             dialog.dismiss();
                             startActivity(new Intent(MainActivity.this, HostActivity.class));

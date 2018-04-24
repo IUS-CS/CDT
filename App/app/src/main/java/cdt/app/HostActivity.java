@@ -9,16 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import android.content.SharedPreferences;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 
@@ -27,41 +25,33 @@ import static android.content.ContentValues.TAG;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-public class HostActivity extends YouTubeBaseActivity /* implements RefreshListener */ {
+public class HostActivity extends JoinActivity /* implements RefreshListener */ {
 
 
-    YouTubePlayerView mYouTubePlayerView;
-    YouTubePlayer.OnInitializedListener mOnInitializedListener;
-
-    YouTubePlayer myYouTubePlayer;
     boolean youTubeInitialized = false;
 
+    // YouTube player fragment
+    private YouTubePlayerSupportFragment youTubePlayerFragment;
+
+    YouTubePlayer YPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
+        initializeYoutubePlayer();
 
-        mYouTubePlayerView = findViewById(R.id.youTubePlayer);
+        ListView songlist = findViewById(R.id.id_song_list_host_listview);
+        songAdapter = new JoinSongListAdapter();
+        songlist.setAdapter(songAdapter);
 
-        mOnInitializedListener = new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                Log.d(TAG, "onInitializationSuccess: Done initializing.");
-                myYouTubePlayer = youTubePlayer;
-                youTubeInitialized = true;
-            }
+        // set this object to listen to refresh events
+        RefreshManager.setListener(this);
 
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Log.d(TAG, "onInitializationFailure: Failed to initialize.");
-            }
-        };
-
-        mYouTubePlayerView.initialize(YouTubeConfig.getApiKey(), mOnInitializedListener);
+        // start the refresher and specify time between each refresh
+        RefreshThread refresher = new RefreshThread(REFRESH_TIME);
+        refresher.start();
     }
 
     @Override
@@ -74,6 +64,7 @@ public class HostActivity extends YouTubeBaseActivity /* implements RefreshListe
         if (account == null) {
             startActivity(new Intent(HostActivity.this, SignInActivity.class));
 
+            /*
             final Button searchVideoButton = findViewById(R.id.searchVideoButton_id);
             searchVideoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,13 +81,83 @@ public class HostActivity extends YouTubeBaseActivity /* implements RefreshListe
                     if (youTubeInitialized) {
                         EditText data = (EditText) findViewById(R.id.addVideoTextBox_id);
                         String video = data.getText().toString();
-                        myYouTubePlayer.loadVideo(video);
+                        YPlayer.loadVideo(video);
                     }
 
                 }
             });
+            */
 
         }
+    }
+
+
+
+    // initializes the field YPlayer with an instance of YouTubePlayer
+    private void initializeYoutubePlayer() {
+
+        youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.id_youtube_player_fragment);
+
+        if (youTubePlayerFragment == null)
+            return;
+
+        youTubePlayerFragment.initialize(YouTubeConfig.getApiKey(), new YouTubePlayer.OnInitializedListener() {
+
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
+                                                boolean wasRestored) {
+                if (!wasRestored) {
+                    YPlayer = player;
+
+                    //set the player style default
+                    YPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+
+                    //cue the 1st video by default
+                    if(party.songs != null) {
+                        YPlayer.loadVideo(party.songs[0].id);
+                        deleteSong(party.songs[0].id);
+                    }
+                    player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                        @Override
+                        public void onVideoEnded () {
+                            if(party.songs.length > 0) {
+                                YPlayer.loadVideo(party.songs[0].id);
+                                deleteSong(party.songs[0].id);
+                            }
+                        }
+                        @Override
+                        public void onError(YouTubePlayer.ErrorReason r) {
+
+                        }
+                        @Override
+                        public void onAdStarted() {
+
+                        }
+                        @Override
+                        public void onLoaded(String videoId) {
+
+                        }
+                        @Override
+                        public void onLoading() {
+
+                        }
+                        @Override
+                        public void onVideoStarted() {
+
+                        }
+                    });
+                }
+            }
+
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider arg0, YouTubeInitializationResult arg1) {
+
+                //print or show error if initialization failed
+                Log.e(TAG, "Youtube Player View initialization failed");
+            }
+        });
     }
 
 }

@@ -14,20 +14,20 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Party Name"
+        android:hint="Song Title"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/id_host_dialog_continue"
+        android:id="@+id/id_add_song_dialog_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:text="Continue"
+        android:text="Add"
         app:layout_constraintEnd_toEndOf="@+id/id_song_title_field"
         app:layout_constraintStart_toStartOf="@+id/id_song_title_field"
         app:layout_constraintTop_toBottomOf="@+id/id_song_title_field" />
@@ -39,7 +39,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="Name the party you are hosting.\nFriends use this to join your party"
+        android:text="Insert the name of the song and/or\n artist you would like to add"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
